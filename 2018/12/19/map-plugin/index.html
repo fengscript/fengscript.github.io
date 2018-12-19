@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>地图组件踩坑 - 冯学渣的博客</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<!-- remove google to acclerate -->
+<!--  -->
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-2-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/favicon.svg" alt="地图组件踩坑" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/">主页</a>
+                
+                <a class="navbar-item" href="/categories">分类</a>
+                
+                <a class="navbar-item" href="/tags">标签</a>
+                
+                <a class="navbar-item" href="/archives">归档</a>
+                
+                <a class="navbar-item" href="/about">关于我</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <!-- <div class="column is-8-tablet is-8-desktop is-8-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-12-19T15:00:00.000Z">2018-12-19</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/前端/">前端</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    13 分钟 读完 (大约 1916 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                地图组件踩坑
+            
+        </h1>
+        <div class="content">
+            <h1 id="Preview"><a href="#Preview" class="headerlink" title="Preview"></a>Preview</h1><p>需要在项目中插入地图、寻路功能的，常用有以下地图插件可选择</p>
+<ul>
+<li>谷歌地图</li>
+<li>百度地图</li>
+<li>高德地图 （阿里）</li>
+<li>腾讯地图<a id="more"></a>
+总的来说，插入地图功能需要以下步骤：</li>
+<li>总结需求，技术选型</li>
+<li>注册相关账号</li>
+<li>申请 API</li>
+<li>按官方文档，引入 <code>js</code>，设置容器，插入地图</li>
+<li>个性化</li>
+</ul>
+<p>经过分析，我的项目（KPCV），需要地图、天气功能，所以选择了 <code>高德地图</code>，它提供了地图功能之外的众多扩展功能，如：3天之内天气预报、定位、交通态势等等。</p>
+<p>这里，以 <code>高德地图</code> 为例，从0到1简单记录插入地图功能的入门踩的坑，为大家提供参考。</p>
+<h1 id="1-申请-API"><a href="#1-申请-API" class="headerlink" title="1 申请 API"></a>1 申请 API</h1><h2 id="1-1-注册账号"><a href="#1-1-注册账号" class="headerlink" title="1.1 注册账号"></a>1.1 注册账号</h2><p>首先搜索 <code>高德地图开放平台</code>，找到 <strong>高德开放平台 <a href="http://lbs.amap.com/" target="_blank" rel="noopener">http://lbs.amap.com/</a></strong> ，右上角注册一个账号。</p>
+<h2 id="1-2-申请相关-API"><a href="#1-2-申请相关-API" class="headerlink" title="1.2 申请相关 API"></a>1.2 申请相关 <code>API</code></h2><p>申请完账号，会进入到自己的 <code>控制台</code> ，我们需要先 <code>创建一个新应用</code>：</p>
+<p>从左边菜单打开 <code>应用管理</code> -&gt; <code>我的应用</code> ，点击右上角 <code>创建新应用</code>，设置一个名字，选择一个类型，然后在出现的应用框中找到 右上角 <code>添加新Key</code>，可以看到，在新出来的菜单框中 <code>服务平台</code> 中有多个服务平台可选取：</p>
+<blockquote>
+<h3 id="注意：相关地图库都有-Web端，Android，ios等平台，而在-Web端，一般都会分-Web开发-和-Web服务两种API，这两种-API："><a href="#注意：相关地图库都有-Web端，Android，ios等平台，而在-Web端，一般都会分-Web开发-和-Web服务两种API，这两种-API：" class="headerlink" title="注意：相关地图库都有 Web端，Android，ios等平台，而在 Web端，一般都会分 Web开发 和 Web服务两种API，这两种 API："></a>注意：相关地图库都有 <code>Web端</code>，<code>Android</code>，<code>ios</code>等平台，而在 <code>Web端</code>，一般都会分 <code>Web开发</code> 和 <code>Web服务</code>两种API，这两种 API：</h3><h4 id="Web开发：主要提供围绕-地图-的功能，如：地图显示、标注、路线规划、公交线路等等"><a href="#Web开发：主要提供围绕-地图-的功能，如：地图显示、标注、路线规划、公交线路等等" class="headerlink" title="Web开发：主要提供围绕 地图 的功能，如：地图显示、标注、路线规划、公交线路等等"></a><code>Web开发</code>：主要提供围绕 <code>地图</code> 的功能，如：地图显示、标注、路线规划、公交线路等等</h4><h4 id="Web服务：主要提供其他附加功能，如：IP定位、地址解析、坐标系转换、天气、地点搜索等等"><a href="#Web服务：主要提供其他附加功能，如：IP定位、地址解析、坐标系转换、天气、地点搜索等等" class="headerlink" title="Web服务：主要提供其他附加功能，如：IP定位、地址解析、坐标系转换、天气、地点搜索等等"></a><code>Web服务</code>：主要提供其他附加功能，如：IP定位、地址解析、坐标系转换、天气、地点搜索等等</h4></blockquote>
+<p>显而易见，这个菜单框中的 <code>Web端</code>，<code>Web服务</code>这两种 <code>API</code> 我们都需要，我们先给 <code>Web端</code> 创建一个 <code>key</code>：</p>
+<p>选择 <code>Web端</code>，自己输入一个名称，要和后面的 <code>Web服务</code> 区分开，以免自己弄混。然后打上下面 <code>我已阅读 高德地图API服务条款 和 高德服务条款及隐私权政策</code> 勾，提交，就可以看到刚才创建的应用框中多出了一个 Key，且标出了它的名称、绑定服务，绑定服务下面是我们刚才选的 <code>Web端</code>，我们也可以点后面查看配额，因为定位、天气等免费的查询次数每天是有限制的，一般情况下也足够用了。</p>
+<p>同样操作，创建一个 <code>Web服务</code> 的<code>key</code>，将两个 <code>key</code>复制保存备用。</p>
+<h1 id="2-插入地图"><a href="#2-插入地图" class="headerlink" title="2 插入地图"></a>2 插入地图</h1><h2 id="2-1-引入-js-文件"><a href="#2-1-引入-js-文件" class="headerlink" title="2.1 引入 js 文件"></a>2.1 引入 <code>js</code> 文件</h2><p>我们先插入一个基础的地图试试：</p>
+<p>在 <code>html</code> 文件中引入 <code>js</code> 文件<br><figure class="highlight html hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/javascript"</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"http://webapi.amap.com/maps?v=1.4.2&amp;key=您申请的key值"</span>&gt;</span><span class="hljs-undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>然后用前面复制下来的  <code>Web端</code> 的 <code>key</code>，替换上面链接中 <code>您申请的key值</code> 字符。</p>
+<blockquote>
+<p><code>js</code> 文件地址及相关说明可以在这里找到：<a href="http://lbs.amap.com/api/javascript-api/summary/#version-introduction" target="_blank" rel="noopener">http://lbs.amap.com/api/javascript-api/summary/#version-introduction</a></p>
+</blockquote>
+<h2 id="2-2-设置一个容器"><a href="#2-2-设置一个容器" class="headerlink" title="2.2 设置一个容器"></a>2.2 设置一个容器</h2><figure class="highlight html hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"mapContainer"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>根据你的需求，为容器设置合适的宽高</strong></p>
+<p><strong>给容器设置 id，下面初始化时候需要</strong></p>
+<h2 id="2-3-开动-js，创建地图"><a href="#2-3-开动-js，创建地图" class="headerlink" title="2.3 开动 js，创建地图"></a>2.3 开动 <code>js</code>，创建地图</h2><p>使用 <code>AMap.Map()</code> 构造函数即可，填进去你的容器id：<br><figure class="highlight js hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> myMap = <span class="hljs-keyword">new</span> AMap.Map(<span class="hljs-string">'mapContainer'</span>);</span><br></pre></td></tr></table></figure></p>
+<p>召唤出来的地图会自动定位到你当前位置。</p>
+<p>若需要指定地图定位点，使用官方的 <code>坐标拾取器</code> 获取你所要显示的地点的坐标，然后在<code>AMap.Map()</code> 构造函数中补充参数即可：</p>
+<p>坐标拾取器：<a href="http://lbs.amap.com/console/show/picker，搜索" target="_blank" rel="noopener">http://lbs.amap.com/console/show/picker，搜索</a> <code>惟真科技</code> ，获得坐标 <code>120.163261,30.184492</code>，复制，填到 <code>center</code> 数组属性中 ↓</p>
+<figure class="highlight js hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> myMap = <span class="hljs-keyword">new</span> AMap.Map(<span class="hljs-string">'mapContainer'</span>,&#123;</span><br><span class="line">    center: [<span class="hljs-number">120.163261</span>,<span class="hljs-number">30.184492</span>],</span><br><span class="line">    resizeEnable: <span class="hljs-literal">true</span>,             <span class="hljs-comment">// 自动重置地图尺寸</span></span><br><span class="line">    zoom:<span class="hljs-number">11</span>,                        <span class="hljs-comment">// 设置缩放级别</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p><code>zoom</code> : 地图缩放级别，最大为 <code>20</code> ，最小为 <code>1</code>，可以根据自己需求设置试试看。</p>
+<h1 id="3-插件系统"><a href="#3-插件系统" class="headerlink" title="3 插件系统"></a>3 插件系统</h1><p>高德地图在基础的地图图层和覆盖物功能之外提供了众多接口，这里以定位的 <code>AMap.Geolocation</code> 插件 和 天气插件 ‘AMap.Weather’ 为例：</p>
+<h2 id="3-1-定位插件"><a href="#3-1-定位插件" class="headerlink" title="3.1 定位插件"></a>3.1 定位插件</h2><p><a href="http://lbs.amap.com/api/javascript-api/reference/location" target="_blank" rel="noopener">http://lbs.amap.com/api/javascript-api/reference/location</a></p>
+<p>官网提供了多种加载方式，这里以异步为例：<br><figure class="highlight js hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> myMap = <span class="hljs-keyword">new</span> AMap.Map(<span class="hljs-string">'mapContainer'</span>,&#123;</span><br><span class="line">    center: [<span class="hljs-number">120.163261</span>,<span class="hljs-number">30.184492</span>],</span><br><span class="line">    resizeEnable: <span class="hljs-literal">true</span>,             <span class="hljs-comment">// 自动重置地图尺寸</span></span><br><span class="line">    zoom:<span class="hljs-number">11</span>,                        <span class="hljs-comment">// 设置缩放级别</span></span><br><span class="line">&#125;);</span><br><span class="line"><span class="hljs-comment">// 接上面</span></span><br><span class="line">myMap.plugin([<span class="hljs-string">'AMap.Geolocation'</span>, <span class="hljs-string">'AMap.Weather'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">var</span> geolocation = <span class="hljs-keyword">new</span> AMap.Geolocation(&#123;</span><br><span class="line">        enableHighAccuracy: <span class="hljs-literal">true</span>, <span class="hljs-comment">//是否使用高精度定位，默认:true</span></span><br><span class="line">        timeout: <span class="hljs-number">10000</span>, <span class="hljs-comment">//超过10秒后停止定位，默认：无穷大</span></span><br><span class="line">        useNative: <span class="hljs-literal">true</span>, <span class="hljs-comment">//是否使用安卓定位 sdk 用来进行定位，默认：false</span></span><br><span class="line">        zoomToAccuracy: <span class="hljs-literal">true</span>, <span class="hljs-comment">//定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false</span></span><br><span class="line">        showMarker: <span class="hljs-literal">true</span>, <span class="hljs-comment">//定位成功后在定位到的位置显示点标记，默认：true</span></span><br><span class="line">        showMarker: <span class="hljs-literal">true</span>, <span class="hljs-comment">//定位成功时是否在定位位置显示一个 Marker</span></span><br><span class="line">        showCircle: <span class="hljs-literal">true</span>, <span class="hljs-comment">//定位成功并且有精度信息时，是否用一个圆圈 circle 表示精度范围</span></span><br><span class="line">    &#125;);</span><br><span class="line">    myMap.addControl(geolocation);</span><br><span class="line">    geolocation.getCurrentPosition();</span><br><span class="line"></span><br><span class="line">    AMap.event.addListener(geolocation, <span class="hljs-string">'complete'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">response</span>) </span>&#123;</span><br><span class="line">        <span class="hljs-comment">//定位完成后的回调</span></span><br><span class="line">        <span class="hljs-built_in">console</span>.log(response)</span><br><span class="line">        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"您位于："</span>+response.addressComponent.province + response.addressComponent.city + response.addressComponent.district + response.addressComponent.township);</span><br><span class="line">    &#125;); </span><br><span class="line">    AMap.event.addListener(geolocation, <span class="hljs-string">'error'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">response</span>) </span>&#123;</span><br><span class="line">        <span class="hljs-comment">//定位出错后的回调</span></span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>定位成功后返回的对象中，<code>addressComponent</code> 里面是详细地址，你可以看看返回的所有数据~</p>
+<h2 id="3-2-天气插件"><a href="#3-2-天气插件" class="headerlink" title="3.2 天气插件"></a>3.2 天气插件</h2><p><strong>天气插件用到了 <code>Web服务</code> 的 <code>key</code>，因此，你需要先复制过来<code>Web服务</code> 的 <code>key</code></strong></p>
+<p>查询天气的 <code>API</code>地址为：</p>
+<figure class="highlight js hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="hljs-comment">//restapi.amap.com/v3/weather/weatherInfo?参数&amp;key=“您的key”</span></span><br></pre></td></tr></table></figure>
+<p>其中， <code>key</code> 是必须的参数，其他参数为选填，一个例子：</p>
+<figure class="highlight js hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$.ajax(&#123;</span><br><span class="line">    method: <span class="hljs-string">"GET"</span>,</span><br><span class="line">    url: <span class="hljs-string">'http://restapi.amap.com/v3/weather/weatherInfo?city='</span>杭州市<span class="hljs-string">'&amp;extensions=all&amp;key=你的key'</span>,</span><br><span class="line">    dataType: <span class="hljs-string">"json"</span>,</span><br><span class="line">    <span class="hljs-comment">// crossDomain: true,</span></span><br><span class="line">&#125;).done(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">res</span>) </span>&#123;</span><br><span class="line"><span class="hljs-comment">//   返回的参数中 res.lives为今日天气  res.forecasts[0] 为预报天气</span></span><br><span class="line">&#125;).fail(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">res</span>) </span>&#123;</span><br><span class="line">    <span class="hljs-comment">// 定位失败返回的对象</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>返回具体的数据自己可以看看都有哪些，对应数据代表的含义见官方：<br><a href="http://lbs.amap.com/api/webservice/guide/api/weatherinfo" target="_blank" rel="noopener">http://lbs.amap.com/api/webservice/guide/api/weatherinfo</a></p>
+<h1 id="4-其他服务"><a href="#4-其他服务" class="headerlink" title="4 其他服务"></a>4 其他服务</h1><p>除了插件，  <code>javascript</code>控件自身也带了许多服务，可以实现相同功能，如道路交叉口查询服务<code>AMap.RoadInfoSearch</code>、天气查询 <code>AMap.Weather</code>：</p>
+<figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> AMap.service(<span class="hljs-string">'AMap.Weather'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">var</span> weather = <span class="hljs-keyword">new</span> AMap.Weather();</span><br><span class="line">    <span class="hljs-comment">//查询实时天气信息, 查询的城市到行政级别的城市，如朝阳区、杭州市</span></span><br><span class="line">    weather.getLive(<span class="hljs-string">'杭州市'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err, data</span>) </span>&#123;    </span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>文档参见：<a href="http://lbs.amap.com/api/javascript-api/reference/search_plugin" target="_blank" rel="noopener">http://lbs.amap.com/api/javascript-api/reference/search_plugin</a></p>
+<p>实例：<a href="http://lbs.amap.com/api/javascript-api/example/weather-forecast/weather-forecast" target="_blank" rel="noopener">http://lbs.amap.com/api/javascript-api/example/weather-forecast/weather-forecast</a></p>
+<h1 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h1><blockquote>
+<p>所有国产地图插件的套路都是一样的：申请账号、申请<code>key</code>、引入文件、创建容器、插入地图，以上仅仅是最简单的从 0 到 1 实现一个地图，及相关服务、插件的最简单介绍，尽量降低第一次上手地图插件的难度，更详细的用法、详尽的功能，请自己多试试，多看看官网文档</p>
+</blockquote>
+<p>官网文档地址 <a href="http://lbs.amap.com/api/webservice/gettingstarted" target="_blank" rel="noopener">http://lbs.amap.com/api/webservice/gettingstarted</a></p>
+<p>官方所有例子 <a href="http://lbs.amap.com/api/javascript-api/example/map/map-show" target="_blank" rel="noopener">http://lbs.amap.com/api/javascript-api/example/map/map-show</a></p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/javascript/">javascript</a>, <a class="has-link-grey -link" href="/tags/map/">map</a>, <a class="has-link-grey -link" href="/tags/前端/">前端</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2018/12/20/about-this-blog/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">关于这个博客</span>
+            </a>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">评论</h3>
+        
+<div id="valine-thread"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#valine-thread' ,
+        notify: true,
+        verify: true,
+        app_id: 'JqjOsYU5gr8YNcivHfvi5DKL-gzGzoHsz',
+        app_key: 'DkSF9sCyu8lOwgDzJX6Br7d8',
+        placeholder: '欢迎评论~'
+    });
+</script>
+
+    </div>
+</div>
+</div> -->
+                <!-- add by fyg -->
+                <!-- to remove sidebar in article page -->
+                
+                    <!-- in article page, put arcitle take all width-->
+                <div class="column is-12 has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-12-19T15:00:00.000Z">2018-12-19</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/前端/">前端</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    13 分钟 读完 (大约 1916 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                地图组件踩坑
+            
+        </h1>
+        <div class="content">
+            <h1 id="Preview"><a href="#Preview" class="headerlink" title="Preview"></a>Preview</h1><p>需要在项目中插入地图、寻路功能的，常用有以下地图插件可选择</p>
+<ul>
+<li>谷歌地图</li>
+<li>百度地图</li>
+<li>高德地图 （阿里）</li>
+<li>腾讯地图<a id="more"></a>
+总的来说，插入地图功能需要以下步骤：</li>
+<li>总结需求，技术选型</li>
+<li>注册相关账号</li>
+<li>申请 API</li>
+<li>按官方文档，引入 <code>js</code>，设置容器，插入地图</li>
+<li>个性化</li>
+</ul>
+<p>经过分析，我的项目（KPCV），需要地图、天气功能，所以选择了 <code>高德地图</code>，它提供了地图功能之外的众多扩展功能，如：3天之内天气预报、定位、交通态势等等。</p>
+<p>这里，以 <code>高德地图</code> 为例，从0到1简单记录插入地图功能的入门踩的坑，为大家提供参考。</p>
+<h1 id="1-申请-API"><a href="#1-申请-API" class="headerlink" title="1 申请 API"></a>1 申请 API</h1><h2 id="1-1-注册账号"><a href="#1-1-注册账号" class="headerlink" title="1.1 注册账号"></a>1.1 注册账号</h2><p>首先搜索 <code>高德地图开放平台</code>，找到 <strong>高德开放平台 <a href="http://lbs.amap.com/" target="_blank" rel="noopener">http://lbs.amap.com/</a></strong> ，右上角注册一个账号。</p>
+<h2 id="1-2-申请相关-API"><a href="#1-2-申请相关-API" class="headerlink" title="1.2 申请相关 API"></a>1.2 申请相关 <code>API</code></h2><p>申请完账号，会进入到自己的 <code>控制台</code> ，我们需要先 <code>创建一个新应用</code>：</p>
+<p>从左边菜单打开 <code>应用管理</code> -&gt; <code>我的应用</code> ，点击右上角 <code>创建新应用</code>，设置一个名字，选择一个类型，然后在出现的应用框中找到 右上角 <code>添加新Key</code>，可以看到，在新出来的菜单框中 <code>服务平台</code> 中有多个服务平台可选取：</p>
+<blockquote>
+<h3 id="注意：相关地图库都有-Web端，Android，ios等平台，而在-Web端，一般都会分-Web开发-和-Web服务两种API，这两种-API："><a href="#注意：相关地图库都有-Web端，Android，ios等平台，而在-Web端，一般都会分-Web开发-和-Web服务两种API，这两种-API：" class="headerlink" title="注意：相关地图库都有 Web端，Android，ios等平台，而在 Web端，一般都会分 Web开发 和 Web服务两种API，这两种 API："></a>注意：相关地图库都有 <code>Web端</code>，<code>Android</code>，<code>ios</code>等平台，而在 <code>Web端</code>，一般都会分 <code>Web开发</code> 和 <code>Web服务</code>两种API，这两种 API：</h3><h4 id="Web开发：主要提供围绕-地图-的功能，如：地图显示、标注、路线规划、公交线路等等"><a href="#Web开发：主要提供围绕-地图-的功能，如：地图显示、标注、路线规划、公交线路等等" class="headerlink" title="Web开发：主要提供围绕 地图 的功能，如：地图显示、标注、路线规划、公交线路等等"></a><code>Web开发</code>：主要提供围绕 <code>地图</code> 的功能，如：地图显示、标注、路线规划、公交线路等等</h4><h4 id="Web服务：主要提供其他附加功能，如：IP定位、地址解析、坐标系转换、天气、地点搜索等等"><a href="#Web服务：主要提供其他附加功能，如：IP定位、地址解析、坐标系转换、天气、地点搜索等等" class="headerlink" title="Web服务：主要提供其他附加功能，如：IP定位、地址解析、坐标系转换、天气、地点搜索等等"></a><code>Web服务</code>：主要提供其他附加功能，如：IP定位、地址解析、坐标系转换、天气、地点搜索等等</h4></blockquote>
+<p>显而易见，这个菜单框中的 <code>Web端</code>，<code>Web服务</code>这两种 <code>API</code> 我们都需要，我们先给 <code>Web端</code> 创建一个 <code>key</code>：</p>
+<p>选择 <code>Web端</code>，自己输入一个名称，要和后面的 <code>Web服务</code> 区分开，以免自己弄混。然后打上下面 <code>我已阅读 高德地图API服务条款 和 高德服务条款及隐私权政策</code> 勾，提交，就可以看到刚才创建的应用框中多出了一个 Key，且标出了它的名称、绑定服务，绑定服务下面是我们刚才选的 <code>Web端</code>，我们也可以点后面查看配额，因为定位、天气等免费的查询次数每天是有限制的，一般情况下也足够用了。</p>
+<p>同样操作，创建一个 <code>Web服务</code> 的<code>key</code>，将两个 <code>key</code>复制保存备用。</p>
+<h1 id="2-插入地图"><a href="#2-插入地图" class="headerlink" title="2 插入地图"></a>2 插入地图</h1><h2 id="2-1-引入-js-文件"><a href="#2-1-引入-js-文件" class="headerlink" title="2.1 引入 js 文件"></a>2.1 引入 <code>js</code> 文件</h2><p>我们先插入一个基础的地图试试：</p>
+<p>在 <code>html</code> 文件中引入 <code>js</code> 文件<br><figure class="highlight html hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/javascript"</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"http://webapi.amap.com/maps?v=1.4.2&amp;key=您申请的key值"</span>&gt;</span><span class="hljs-undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>然后用前面复制下来的  <code>Web端</code> 的 <code>key</code>，替换上面链接中 <code>您申请的key值</code> 字符。</p>
+<blockquote>
+<p><code>js</code> 文件地址及相关说明可以在这里找到：<a href="http://lbs.amap.com/api/javascript-api/summary/#version-introduction" target="_blank" rel="noopener">http://lbs.amap.com/api/javascript-api/summary/#version-introduction</a></p>
+</blockquote>
+<h2 id="2-2-设置一个容器"><a href="#2-2-设置一个容器" class="headerlink" title="2.2 设置一个容器"></a>2.2 设置一个容器</h2><figure class="highlight html hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"mapContainer"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>根据你的需求，为容器设置合适的宽高</strong></p>
+<p><strong>给容器设置 id，下面初始化时候需要</strong></p>
+<h2 id="2-3-开动-js，创建地图"><a href="#2-3-开动-js，创建地图" class="headerlink" title="2.3 开动 js，创建地图"></a>2.3 开动 <code>js</code>，创建地图</h2><p>使用 <code>AMap.Map()</code> 构造函数即可，填进去你的容器id：<br><figure class="highlight js hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> myMap = <span class="hljs-keyword">new</span> AMap.Map(<span class="hljs-string">'mapContainer'</span>);</span><br></pre></td></tr></table></figure></p>
+<p>召唤出来的地图会自动定位到你当前位置。</p>
+<p>若需要指定地图定位点，使用官方的 <code>坐标拾取器</code> 获取你所要显示的地点的坐标，然后在<code>AMap.Map()</code> 构造函数中补充参数即可：</p>
+<p>坐标拾取器：<a href="http://lbs.amap.com/console/show/picker，搜索" target="_blank" rel="noopener">http://lbs.amap.com/console/show/picker，搜索</a> <code>惟真科技</code> ，获得坐标 <code>120.163261,30.184492</code>，复制，填到 <code>center</code> 数组属性中 ↓</p>
+<figure class="highlight js hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> myMap = <span class="hljs-keyword">new</span> AMap.Map(<span class="hljs-string">'mapContainer'</span>,&#123;</span><br><span class="line">    center: [<span class="hljs-number">120.163261</span>,<span class="hljs-number">30.184492</span>],</span><br><span class="line">    resizeEnable: <span class="hljs-literal">true</span>,             <span class="hljs-comment">// 自动重置地图尺寸</span></span><br><span class="line">    zoom:<span class="hljs-number">11</span>,                        <span class="hljs-comment">// 设置缩放级别</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p><code>zoom</code> : 地图缩放级别，最大为 <code>20</code> ，最小为 <code>1</code>，可以根据自己需求设置试试看。</p>
+<h1 id="3-插件系统"><a href="#3-插件系统" class="headerlink" title="3 插件系统"></a>3 插件系统</h1><p>高德地图在基础的地图图层和覆盖物功能之外提供了众多接口，这里以定位的 <code>AMap.Geolocation</code> 插件 和 天气插件 ‘AMap.Weather’ 为例：</p>
+<h2 id="3-1-定位插件"><a href="#3-1-定位插件" class="headerlink" title="3.1 定位插件"></a>3.1 定位插件</h2><p><a href="http://lbs.amap.com/api/javascript-api/reference/location" target="_blank" rel="noopener">http://lbs.amap.com/api/javascript-api/reference/location</a></p>
+<p>官网提供了多种加载方式，这里以异步为例：<br><figure class="highlight js hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> myMap = <span class="hljs-keyword">new</span> AMap.Map(<span class="hljs-string">'mapContainer'</span>,&#123;</span><br><span class="line">    center: [<span class="hljs-number">120.163261</span>,<span class="hljs-number">30.184492</span>],</span><br><span class="line">    resizeEnable: <span class="hljs-literal">true</span>,             <span class="hljs-comment">// 自动重置地图尺寸</span></span><br><span class="line">    zoom:<span class="hljs-number">11</span>,                        <span class="hljs-comment">// 设置缩放级别</span></span><br><span class="line">&#125;);</span><br><span class="line"><span class="hljs-comment">// 接上面</span></span><br><span class="line">myMap.plugin([<span class="hljs-string">'AMap.Geolocation'</span>, <span class="hljs-string">'AMap.Weather'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">var</span> geolocation = <span class="hljs-keyword">new</span> AMap.Geolocation(&#123;</span><br><span class="line">        enableHighAccuracy: <span class="hljs-literal">true</span>, <span class="hljs-comment">//是否使用高精度定位，默认:true</span></span><br><span class="line">        timeout: <span class="hljs-number">10000</span>, <span class="hljs-comment">//超过10秒后停止定位，默认：无穷大</span></span><br><span class="line">        useNative: <span class="hljs-literal">true</span>, <span class="hljs-comment">//是否使用安卓定位 sdk 用来进行定位，默认：false</span></span><br><span class="line">        zoomToAccuracy: <span class="hljs-literal">true</span>, <span class="hljs-comment">//定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false</span></span><br><span class="line">        showMarker: <span class="hljs-literal">true</span>, <span class="hljs-comment">//定位成功后在定位到的位置显示点标记，默认：true</span></span><br><span class="line">        showMarker: <span class="hljs-literal">true</span>, <span class="hljs-comment">//定位成功时是否在定位位置显示一个 Marker</span></span><br><span class="line">        showCircle: <span class="hljs-literal">true</span>, <span class="hljs-comment">//定位成功并且有精度信息时，是否用一个圆圈 circle 表示精度范围</span></span><br><span class="line">    &#125;);</span><br><span class="line">    myMap.addControl(geolocation);</span><br><span class="line">    geolocation.getCurrentPosition();</span><br><span class="line"></span><br><span class="line">    AMap.event.addListener(geolocation, <span class="hljs-string">'complete'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">response</span>) </span>&#123;</span><br><span class="line">        <span class="hljs-comment">//定位完成后的回调</span></span><br><span class="line">        <span class="hljs-built_in">console</span>.log(response)</span><br><span class="line">        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"您位于："</span>+response.addressComponent.province + response.addressComponent.city + response.addressComponent.district + response.addressComponent.township);</span><br><span class="line">    &#125;); </span><br><span class="line">    AMap.event.addListener(geolocation, <span class="hljs-string">'error'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">response</span>) </span>&#123;</span><br><span class="line">        <span class="hljs-comment">//定位出错后的回调</span></span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>定位成功后返回的对象中，<code>addressComponent</code> 里面是详细地址，你可以看看返回的所有数据~</p>
+<h2 id="3-2-天气插件"><a href="#3-2-天气插件" class="headerlink" title="3.2 天气插件"></a>3.2 天气插件</h2><p><strong>天气插件用到了 <code>Web服务</code> 的 <code>key</code>，因此，你需要先复制过来<code>Web服务</code> 的 <code>key</code></strong></p>
+<p>查询天气的 <code>API</code>地址为：</p>
+<figure class="highlight js hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="hljs-comment">//restapi.amap.com/v3/weather/weatherInfo?参数&amp;key=“您的key”</span></span><br></pre></td></tr></table></figure>
+<p>其中， <code>key</code> 是必须的参数，其他参数为选填，一个例子：</p>
+<figure class="highlight js hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$.ajax(&#123;</span><br><span class="line">    method: <span class="hljs-string">"GET"</span>,</span><br><span class="line">    url: <span class="hljs-string">'http://restapi.amap.com/v3/weather/weatherInfo?city='</span>杭州市<span class="hljs-string">'&amp;extensions=all&amp;key=你的key'</span>,</span><br><span class="line">    dataType: <span class="hljs-string">"json"</span>,</span><br><span class="line">    <span class="hljs-comment">// crossDomain: true,</span></span><br><span class="line">&#125;).done(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">res</span>) </span>&#123;</span><br><span class="line"><span class="hljs-comment">//   返回的参数中 res.lives为今日天气  res.forecasts[0] 为预报天气</span></span><br><span class="line">&#125;).fail(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">res</span>) </span>&#123;</span><br><span class="line">    <span class="hljs-comment">// 定位失败返回的对象</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>返回具体的数据自己可以看看都有哪些，对应数据代表的含义见官方：<br><a href="http://lbs.amap.com/api/webservice/guide/api/weatherinfo" target="_blank" rel="noopener">http://lbs.amap.com/api/webservice/guide/api/weatherinfo</a></p>
+<h1 id="4-其他服务"><a href="#4-其他服务" class="headerlink" title="4 其他服务"></a>4 其他服务</h1><p>除了插件，  <code>javascript</code>控件自身也带了许多服务，可以实现相同功能，如道路交叉口查询服务<code>AMap.RoadInfoSearch</code>、天气查询 <code>AMap.Weather</code>：</p>
+<figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> AMap.service(<span class="hljs-string">'AMap.Weather'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">var</span> weather = <span class="hljs-keyword">new</span> AMap.Weather();</span><br><span class="line">    <span class="hljs-comment">//查询实时天气信息, 查询的城市到行政级别的城市，如朝阳区、杭州市</span></span><br><span class="line">    weather.getLive(<span class="hljs-string">'杭州市'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err, data</span>) </span>&#123;    </span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>文档参见：<a href="http://lbs.amap.com/api/javascript-api/reference/search_plugin" target="_blank" rel="noopener">http://lbs.amap.com/api/javascript-api/reference/search_plugin</a></p>
+<p>实例：<a href="http://lbs.amap.com/api/javascript-api/example/weather-forecast/weather-forecast" target="_blank" rel="noopener">http://lbs.amap.com/api/javascript-api/example/weather-forecast/weather-forecast</a></p>
+<h1 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h1><blockquote>
+<p>所有国产地图插件的套路都是一样的：申请账号、申请<code>key</code>、引入文件、创建容器、插入地图，以上仅仅是最简单的从 0 到 1 实现一个地图，及相关服务、插件的最简单介绍，尽量降低第一次上手地图插件的难度，更详细的用法、详尽的功能，请自己多试试，多看看官网文档</p>
+</blockquote>
+<p>官网文档地址 <a href="http://lbs.amap.com/api/webservice/gettingstarted" target="_blank" rel="noopener">http://lbs.amap.com/api/webservice/gettingstarted</a></p>
+<p>官方所有例子 <a href="http://lbs.amap.com/api/javascript-api/example/map/map-show" target="_blank" rel="noopener">http://lbs.amap.com/api/javascript-api/example/map/map-show</a></p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/javascript/">javascript</a>, <a class="has-link-grey -link" href="/tags/map/">map</a>, <a class="has-link-grey -link" href="/tags/前端/">前端</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2018/12/20/about-this-blog/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">关于这个博客</span>
+            </a>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">评论</h3>
+        
+<div id="valine-thread"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#valine-thread' ,
+        notify: true,
+        verify: true,
+        app_id: 'JqjOsYU5gr8YNcivHfvi5DKL-gzGzoHsz',
+        app_key: 'DkSF9sCyu8lOwgDzJX6Br7d8',
+        placeholder: '欢迎评论~'
+    });
+</script>
+
+    </div>
+</div>
+</div>
+                
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <!-- remobe footer lgoo -->
+                <!-- <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/favicon.svg" alt="地图组件踩坑" height="28">
+                
+                </a> -->
+                <p class="is-size-10">
+                &copy; 2018 Feng YangGang&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-icarus">Icarus</a>
+                </p>
+                <!-- add by fyg -->
+                <p class="is-size-10">
+                    This Two-columns Theme At
+                    <a href="https://github.com/fengscript/fengscript.github.io"><i class="fab fa-github"></i></a>
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {matchFontHeight: false},
+        SVG: {matchFontHeight: false},
+        CommonHTML: {matchFontHeight: false}
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+    
+    
+
+    
+    
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>
