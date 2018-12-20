@@ -160,13 +160,17 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2018-12-20T02:01:33.377Z">2018-12-20</time>
+                <time class="level-item has-text-grey" datetime="2018-12-19T16:00:00.000Z">2018-12-20</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/前端/">前端</a>
+                </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    6 分钟 读完 (大约 830 个字)
+                    6 分钟 读完 (大约 831 个字)
                 </span>
                 
             </div>
@@ -174,58 +178,22 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2018/12/20/phone-sensor/"></a>
+                <a class="has-link-black-ter" href="/2018/12/20/phone-sensor/">关于这个博客</a>
             
         </h1>
         <div class="content">
             <h1 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h1><p>我们可以用 H5 添加的传感器API判断移动设备的角度、加速度等数据，比如摇一摇这个功能</p>
 <p>移动设备利用 <code>陀螺仪</code> 实现重力感应的数据获取。</p>
-<p>主要会用到以下接口：</p>
-<ul>
-<li><code>DeviceOrientationEvent</code> ：获取设备在各个方向的偏转角度</li>
-<li><code>DeviceMotionEvent</code> ： 获取设备移动的加速度</li>
-</ul>
-<p><strong>你可以从 F12 控制台 右上角 <code>点点点菜单</code> ——&gt; <code>More tools</code> ——&gt; <code>Sersors</code> 调出谷歌浏览器自带的移动设备传感器的模拟器，然后在下面的  <code>Orientation</code>  里面选任意角度就可以很方便在PC上进行调试</strong></p>
-<h1 id="1-偏转角度-DeviceOrientationEvent"><a href="#1-偏转角度-DeviceOrientationEvent" class="headerlink" title="1 偏转角度 DeviceOrientationEvent"></a>1 偏转角度 <code>DeviceOrientationEvent</code></h1><p><code>deviceorientation</code> 中有以下属性：</p>
-<ul>
-<li><code>absolute</code>: 设备是提供的旋转数据是否是绝对定位 (true / false)</li>
-<li><code>alpha</code>: 绕z轴旋转的角度（范围在0-360之间）的数字</li>
-<li><code>beta</code>: 绕x轴旋转（范围在－180到180之间）的数字</li>
-<li><code>gamma</code>: 绕y轴旋转（范围在－90到90之间）的数字</li>
-</ul>
-<p>使用：</p>
-<figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string">'deviceorientation'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">event</span>) </span>&#123;</span><br><span class="line">  <span class="hljs-built_in">console</span>.log(event.alpha + <span class="hljs-string">' : '</span> + event.beta + <span class="hljs-string">' : '</span> + event.gamma);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<h1 id="2-加速度-DeviceMotionEvent"><a href="#2-加速度-DeviceMotionEvent" class="headerlink" title="2 加速度 DeviceMotionEvent"></a>2 加速度 <code>DeviceMotionEvent</code></h1><p><code>deviceorientation</code> 中有以下对象：</p>
-<ul>
-<li><code>acceleration</code>: 设备在 <code>X</code> ,<code>Y</code> ,<code>Z</code> 轴方向上加速度<ul>
-<li>有 <code>x</code> , <code>y</code>, <code>z</code> 三个值</li>
-</ul>
-</li>
-<li><code>accelerationIncludingGravity</code>: 设备在 <code>X</code>, <code>Y</code>, <code>Z</code> 轴方向上带重力的加速度</li>
-<li><ul>
-<li>有 <code>x</code> , <code>y</code>, <code>z</code> 三个值</li>
-</ul>
-</li>
-<li><code>rotationRate</code>: 设备在 <code>alpha</code>，<code>beta</code>， <code>gamma轴方向上旋转的速率</code></li>
-<li><ul>
-<li>有 <code>alpha</code> , <code>beta</code>, <code>gamma</code> 三个值</li>
-</ul>
-</li>
-<li><code>interval</code>: 从设备获取数据的频率</li>
-</ul>
-<p><code>accelerationIncludingGravity</code> 是由用户引起的设备的加速度和由重力加速度的总和，它在部分没有陀螺仪的设备中是唯一可用值，所以 <strong>需要检测加速度的时候，最好直接用 <code>e.accelerationIncludingGravity</code></strong></p>
-<p>使用：</p>
-<figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string">"devicemotion"</span>, handleMotion, <span class="hljs-literal">false</span>);</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handleMotion</span>(<span class="hljs-params">e</span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">let</span> acceleration = e.acceleration;</span><br><span class="line">    <span class="hljs-keyword">let</span> accelerationIncludingGravity = e.accelerationIncludingGravity;</span><br><span class="line">    <span class="hljs-keyword">let</span> rotationRate = e.rotationRate;</span><br><span class="line">    <span class="hljs-keyword">let</span> interval = e.interval;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">let</span> x = acceleration.x;</span><br><span class="line">    <span class="hljs-keyword">let</span> y = acceleration.y;</span><br><span class="line">    <span class="hljs-keyword">let</span> z = acceleration.z;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">let</span> a = rotationRate.alpha;</span><br><span class="line">    <span class="hljs-keyword">let</span> b = rotationRate.beta;</span><br><span class="line">    <span class="hljs-keyword">let</span> g = rotationRate.gamma;</span><br><span class="line">    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`【devicemotion】alpha: <span class="hljs-subst">$&#123;a&#125;</span>---beta: <span class="hljs-subst">$&#123;b&#125;</span>---gamma: <span class="hljs-subst">$&#123;g&#125;</span>---刷新频率: <span class="hljs-subst">$&#123;interval&#125;</span>`</span>)</span><br><span class="line">    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`【devicemotion acceleration】x: <span class="hljs-subst">$&#123;x&#125;</span>---y: <span class="hljs-subst">$&#123;y&#125;</span>---z: <span class="hljs-subst">$&#123;z&#125;</span>`</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="3-移动设备的摇一摇"><a href="#3-移动设备的摇一摇" class="headerlink" title="3 移动设备的摇一摇"></a>3 移动设备的摇一摇</h1><p>比如，两种实现监控摇一摇的操作</p>
-<figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//使用DeviceOrientation事件, 本质是计算偏转角</span></span><br><span class="line"><span class="hljs-keyword">if</span>(<span class="hljs-built_in">window</span>.DeviceOrientationEvent)&#123;</span><br><span class="line">    <span class="hljs-keyword">var</span> lastAcc;    <span class="hljs-comment">// 用来存储上一次的deviceorientation事件</span></span><br><span class="line">    $(<span class="hljs-built_in">window</span>).on(<span class="hljs-string">'deviceorientation'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">event</span>) </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">var</span> delA = <span class="hljs-built_in">Math</span>.abs(event.alpha - lastAcc.alpha);    <span class="hljs-comment">// alpha轴偏转角</span></span><br><span class="line">        <span class="hljs-keyword">var</span> delB = <span class="hljs-built_in">Math</span>.abs(event.beta - lastAcc.beta);    <span class="hljs-comment">// beta轴偏转角</span></span><br><span class="line">        <span class="hljs-keyword">var</span> delG = <span class="hljs-built_in">Math</span>.abs(event.gamma - lastAcc.gamma);    <span class="hljs-comment">// gamma轴偏转角</span></span><br><span class="line">        <span class="hljs-keyword">if</span> ( (delA &gt; <span class="hljs-number">15</span> &amp;&amp; delB &gt; <span class="hljs-number">15</span>) || (delA &gt; <span class="hljs-number">15</span> &amp;&amp; delG &gt; <span class="hljs-number">15</span>) || (delB &gt; <span class="hljs-number">15</span> || delG &gt; <span class="hljs-number">15</span>)) &#123;</span><br><span class="line">            <span class="hljs-comment">// 用户设备摇动了，触发响应操作</span></span><br><span class="line">            <span class="hljs-comment">// 此处的判断依据是任意两个轴篇转角度大于15度</span></span><br><span class="line">            alert(<span class="hljs-string">'摇了'</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        lastAcc = event;    <span class="hljs-comment">// 存储上一次的event</span></span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
-<figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//可以根据加速度去计算)</span></span><br><span class="line"><span class="hljs-keyword">if</span>(<span class="hljs-built_in">window</span>.DeviceMotionEvent) &#123;</span><br><span class="line">    <span class="hljs-keyword">var</span> speed = <span class="hljs-number">25</span>;    <span class="hljs-comment">// 用来判定的加速度阈值，太大了则很难触发</span></span><br><span class="line">    <span class="hljs-keyword">var</span> x, y, z, lastX, lastY, lastZ;</span><br><span class="line">    x = y = z = lastX = lastY = lastZ = <span class="hljs-number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string">'devicemotion'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">event</span>)</span>&#123;</span><br><span class="line">        <span class="hljs-keyword">var</span> acceleration = event.accelerationIncludingGravity;</span><br><span class="line">        x = acceleration.x;</span><br><span class="line">        y = acceleration.y;</span><br><span class="line">        <span class="hljs-keyword">if</span>(<span class="hljs-built_in">Math</span>.abs(x-lastX) &gt; speed || <span class="hljs-built_in">Math</span>.abs(y-lastY) &gt; speed) &#123;</span><br><span class="line">            <span class="hljs-comment">// 用户设备摇动了，触发响应操作</span></span><br><span class="line">            <span class="hljs-comment">// 此处的判断依据是用户设备的加速度大于我们设置的阈值</span></span><br><span class="line">            alert(<span class="hljs-string">'摇了'</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        lastX = x;</span><br><span class="line">        lastY = y;</span><br><span class="line">    &#125;, <span class="hljs-literal">false</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><p>检测设备是否支持<br><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">if</span> (<span class="hljs-built_in">window</span>.DeviceOrientationEvent) &#123; </span><br><span class="line">   <span class="hljs-comment">// Supported</span></span><br><span class="line">&#125; <span class="hljs-keyword">else</span> &#123; </span><br><span class="line">   <span class="hljs-comment">// Not supported </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>参考：</p>
-<p><a href="https://juejin.im/post/59741e6f6fb9a06bca0bd7d1#heading-2" target="_blank" rel="noopener">https://juejin.im/post/59741e6f6fb9a06bca0bd7d1#heading-2</a></p>
-<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/DeviceOrientationEvent" target="_blank" rel="noopener">https://developer.mozilla.org/zh-CN/docs/Web/API/DeviceOrientationEvent</a></p>
-
         </div>
         
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2018/12/20/phone-sensor/#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
         
         
     </div>
@@ -348,13 +316,17 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2018-12-20T02:01:33.377Z">2018-12-20</time>
+                <time class="level-item has-text-grey" datetime="2018-12-19T16:00:00.000Z">2018-12-20</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/前端/">前端</a>
+                </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    6 分钟 读完 (大约 830 个字)
+                    6 分钟 读完 (大约 831 个字)
                 </span>
                 
             </div>
@@ -362,58 +334,22 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2018/12/20/phone-sensor/"></a>
+                <a class="has-link-black-ter" href="/2018/12/20/phone-sensor/">关于这个博客</a>
             
         </h1>
         <div class="content">
             <h1 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h1><p>我们可以用 H5 添加的传感器API判断移动设备的角度、加速度等数据，比如摇一摇这个功能</p>
 <p>移动设备利用 <code>陀螺仪</code> 实现重力感应的数据获取。</p>
-<p>主要会用到以下接口：</p>
-<ul>
-<li><code>DeviceOrientationEvent</code> ：获取设备在各个方向的偏转角度</li>
-<li><code>DeviceMotionEvent</code> ： 获取设备移动的加速度</li>
-</ul>
-<p><strong>你可以从 F12 控制台 右上角 <code>点点点菜单</code> ——&gt; <code>More tools</code> ——&gt; <code>Sersors</code> 调出谷歌浏览器自带的移动设备传感器的模拟器，然后在下面的  <code>Orientation</code>  里面选任意角度就可以很方便在PC上进行调试</strong></p>
-<h1 id="1-偏转角度-DeviceOrientationEvent"><a href="#1-偏转角度-DeviceOrientationEvent" class="headerlink" title="1 偏转角度 DeviceOrientationEvent"></a>1 偏转角度 <code>DeviceOrientationEvent</code></h1><p><code>deviceorientation</code> 中有以下属性：</p>
-<ul>
-<li><code>absolute</code>: 设备是提供的旋转数据是否是绝对定位 (true / false)</li>
-<li><code>alpha</code>: 绕z轴旋转的角度（范围在0-360之间）的数字</li>
-<li><code>beta</code>: 绕x轴旋转（范围在－180到180之间）的数字</li>
-<li><code>gamma</code>: 绕y轴旋转（范围在－90到90之间）的数字</li>
-</ul>
-<p>使用：</p>
-<figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string">'deviceorientation'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">event</span>) </span>&#123;</span><br><span class="line">  <span class="hljs-built_in">console</span>.log(event.alpha + <span class="hljs-string">' : '</span> + event.beta + <span class="hljs-string">' : '</span> + event.gamma);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<h1 id="2-加速度-DeviceMotionEvent"><a href="#2-加速度-DeviceMotionEvent" class="headerlink" title="2 加速度 DeviceMotionEvent"></a>2 加速度 <code>DeviceMotionEvent</code></h1><p><code>deviceorientation</code> 中有以下对象：</p>
-<ul>
-<li><code>acceleration</code>: 设备在 <code>X</code> ,<code>Y</code> ,<code>Z</code> 轴方向上加速度<ul>
-<li>有 <code>x</code> , <code>y</code>, <code>z</code> 三个值</li>
-</ul>
-</li>
-<li><code>accelerationIncludingGravity</code>: 设备在 <code>X</code>, <code>Y</code>, <code>Z</code> 轴方向上带重力的加速度</li>
-<li><ul>
-<li>有 <code>x</code> , <code>y</code>, <code>z</code> 三个值</li>
-</ul>
-</li>
-<li><code>rotationRate</code>: 设备在 <code>alpha</code>，<code>beta</code>， <code>gamma轴方向上旋转的速率</code></li>
-<li><ul>
-<li>有 <code>alpha</code> , <code>beta</code>, <code>gamma</code> 三个值</li>
-</ul>
-</li>
-<li><code>interval</code>: 从设备获取数据的频率</li>
-</ul>
-<p><code>accelerationIncludingGravity</code> 是由用户引起的设备的加速度和由重力加速度的总和，它在部分没有陀螺仪的设备中是唯一可用值，所以 <strong>需要检测加速度的时候，最好直接用 <code>e.accelerationIncludingGravity</code></strong></p>
-<p>使用：</p>
-<figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string">"devicemotion"</span>, handleMotion, <span class="hljs-literal">false</span>);</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handleMotion</span>(<span class="hljs-params">e</span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">let</span> acceleration = e.acceleration;</span><br><span class="line">    <span class="hljs-keyword">let</span> accelerationIncludingGravity = e.accelerationIncludingGravity;</span><br><span class="line">    <span class="hljs-keyword">let</span> rotationRate = e.rotationRate;</span><br><span class="line">    <span class="hljs-keyword">let</span> interval = e.interval;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">let</span> x = acceleration.x;</span><br><span class="line">    <span class="hljs-keyword">let</span> y = acceleration.y;</span><br><span class="line">    <span class="hljs-keyword">let</span> z = acceleration.z;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">let</span> a = rotationRate.alpha;</span><br><span class="line">    <span class="hljs-keyword">let</span> b = rotationRate.beta;</span><br><span class="line">    <span class="hljs-keyword">let</span> g = rotationRate.gamma;</span><br><span class="line">    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`【devicemotion】alpha: <span class="hljs-subst">$&#123;a&#125;</span>---beta: <span class="hljs-subst">$&#123;b&#125;</span>---gamma: <span class="hljs-subst">$&#123;g&#125;</span>---刷新频率: <span class="hljs-subst">$&#123;interval&#125;</span>`</span>)</span><br><span class="line">    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`【devicemotion acceleration】x: <span class="hljs-subst">$&#123;x&#125;</span>---y: <span class="hljs-subst">$&#123;y&#125;</span>---z: <span class="hljs-subst">$&#123;z&#125;</span>`</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="3-移动设备的摇一摇"><a href="#3-移动设备的摇一摇" class="headerlink" title="3 移动设备的摇一摇"></a>3 移动设备的摇一摇</h1><p>比如，两种实现监控摇一摇的操作</p>
-<figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//使用DeviceOrientation事件, 本质是计算偏转角</span></span><br><span class="line"><span class="hljs-keyword">if</span>(<span class="hljs-built_in">window</span>.DeviceOrientationEvent)&#123;</span><br><span class="line">    <span class="hljs-keyword">var</span> lastAcc;    <span class="hljs-comment">// 用来存储上一次的deviceorientation事件</span></span><br><span class="line">    $(<span class="hljs-built_in">window</span>).on(<span class="hljs-string">'deviceorientation'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">event</span>) </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">var</span> delA = <span class="hljs-built_in">Math</span>.abs(event.alpha - lastAcc.alpha);    <span class="hljs-comment">// alpha轴偏转角</span></span><br><span class="line">        <span class="hljs-keyword">var</span> delB = <span class="hljs-built_in">Math</span>.abs(event.beta - lastAcc.beta);    <span class="hljs-comment">// beta轴偏转角</span></span><br><span class="line">        <span class="hljs-keyword">var</span> delG = <span class="hljs-built_in">Math</span>.abs(event.gamma - lastAcc.gamma);    <span class="hljs-comment">// gamma轴偏转角</span></span><br><span class="line">        <span class="hljs-keyword">if</span> ( (delA &gt; <span class="hljs-number">15</span> &amp;&amp; delB &gt; <span class="hljs-number">15</span>) || (delA &gt; <span class="hljs-number">15</span> &amp;&amp; delG &gt; <span class="hljs-number">15</span>) || (delB &gt; <span class="hljs-number">15</span> || delG &gt; <span class="hljs-number">15</span>)) &#123;</span><br><span class="line">            <span class="hljs-comment">// 用户设备摇动了，触发响应操作</span></span><br><span class="line">            <span class="hljs-comment">// 此处的判断依据是任意两个轴篇转角度大于15度</span></span><br><span class="line">            alert(<span class="hljs-string">'摇了'</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        lastAcc = event;    <span class="hljs-comment">// 存储上一次的event</span></span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
-<figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//可以根据加速度去计算)</span></span><br><span class="line"><span class="hljs-keyword">if</span>(<span class="hljs-built_in">window</span>.DeviceMotionEvent) &#123;</span><br><span class="line">    <span class="hljs-keyword">var</span> speed = <span class="hljs-number">25</span>;    <span class="hljs-comment">// 用来判定的加速度阈值，太大了则很难触发</span></span><br><span class="line">    <span class="hljs-keyword">var</span> x, y, z, lastX, lastY, lastZ;</span><br><span class="line">    x = y = z = lastX = lastY = lastZ = <span class="hljs-number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string">'devicemotion'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">event</span>)</span>&#123;</span><br><span class="line">        <span class="hljs-keyword">var</span> acceleration = event.accelerationIncludingGravity;</span><br><span class="line">        x = acceleration.x;</span><br><span class="line">        y = acceleration.y;</span><br><span class="line">        <span class="hljs-keyword">if</span>(<span class="hljs-built_in">Math</span>.abs(x-lastX) &gt; speed || <span class="hljs-built_in">Math</span>.abs(y-lastY) &gt; speed) &#123;</span><br><span class="line">            <span class="hljs-comment">// 用户设备摇动了，触发响应操作</span></span><br><span class="line">            <span class="hljs-comment">// 此处的判断依据是用户设备的加速度大于我们设置的阈值</span></span><br><span class="line">            alert(<span class="hljs-string">'摇了'</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        lastX = x;</span><br><span class="line">        lastY = y;</span><br><span class="line">    &#125;, <span class="hljs-literal">false</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><p>检测设备是否支持<br><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">if</span> (<span class="hljs-built_in">window</span>.DeviceOrientationEvent) &#123; </span><br><span class="line">   <span class="hljs-comment">// Supported</span></span><br><span class="line">&#125; <span class="hljs-keyword">else</span> &#123; </span><br><span class="line">   <span class="hljs-comment">// Not supported </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>参考：</p>
-<p><a href="https://juejin.im/post/59741e6f6fb9a06bca0bd7d1#heading-2" target="_blank" rel="noopener">https://juejin.im/post/59741e6f6fb9a06bca0bd7d1#heading-2</a></p>
-<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/DeviceOrientationEvent" target="_blank" rel="noopener">https://developer.mozilla.org/zh-CN/docs/Web/API/DeviceOrientationEvent</a></p>
-
         </div>
         
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2018/12/20/phone-sensor/#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
         
         
     </div>
@@ -537,7 +473,7 @@
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        4
+                        5
                     </p>
                 </div>
             </div>
@@ -598,7 +534,7 @@
                             <span class="level-item">javascript</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">2</span>
                         </span>
                     </a>
                 </li>
@@ -607,6 +543,17 @@
                     <a class="level is-marginless" href="/tags/map/">
                         <span class="level-start">
                             <span class="level-item">map</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/phone/">
+                        <span class="level-start">
+                            <span class="level-item">phone</span>
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">1</span>
@@ -644,7 +591,7 @@
                 <span class="level-item">前端</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">2</span>
+                <span class="level-item tag">3</span>
             </span>
         </a></li>
             </ul>
@@ -661,25 +608,6 @@
         
         <article class="media">
             
-            <a href="/2018/12/20/phone-sensor/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-12-20T02:01:33.377Z">2018-12-20</time></div>
-                    <a href="/2018/12/20/phone-sensor/" class="has-link-black-ter is-size-6"></a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
             <a href="/2018/12/20/about-this-blog/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="关于这个博客">
@@ -690,6 +618,25 @@
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-12-19T16:00:00.000Z">2018-12-20</time></div>
                     <a href="/2018/12/20/about-this-blog/" class="has-link-black-ter is-size-6">关于这个博客</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/前端/">前端</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2018/12/20/phone-sensor/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="关于这个博客">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-12-19T16:00:00.000Z">2018-12-20</time></div>
+                    <a href="/2018/12/20/phone-sensor/" class="has-link-black-ter is-size-6">关于这个博客</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/前端/">前端</a>
                     </p>
