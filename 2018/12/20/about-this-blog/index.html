@@ -117,14 +117,14 @@
                 <time class="level-item has-text-grey" datetime="2018-12-19T16:00:00.000Z">2018-12-20</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/前端/">前端</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/前端/随便写写/">随便写写</a>
+                <a class="has-link-grey -link" href="/categories/前端/">前端</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    4 分钟 读完 (大约 642 个字)
+                    6 分钟 读完 (大约 954 个字)
                 </span>
                 
             </div>
@@ -136,12 +136,12 @@
             
         </h1>
         <div class="content">
-            <blockquote>
-<p>很久以前，开始学前端的时候，在 <code>CSDN</code> 放了一个博客，更新每天的笔记。当时当然菜也的要不要的，每天更新了一堆抄上去的 <code>css</code> 笔记。那个博客默认的页面、到处充斥的广告简直要了卿命，于是想自己搭一个博客。研究了一阵 <code>WordPress</code> 发现还要搭到服务器上麻烦的不行，于是盯上了 <code>Hexo</code>。</p>
-</blockquote>
-<blockquote>
-<p>慢慢的，算勉强入了门，也熟悉了 <code>Node</code>，于是找了一个皮肤，整成了现在这个想要的样子，准备整理笔记、逼自己输出内容来锻炼思维<br><a id="more"></a><br><strong>本博客皮肤来自于 <a href="http://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">hexo-theme-icarus</a></strong></p>
-</blockquote>
+            <p>很久以前，开始学前端的时候，在 <code>CSDN</code> 放了一个博客，更新每天的笔记。当时当然也菜的不要不要的，每天更新了一堆 <code>css</code> 笔记。后来找到了实习就没时间再更新，于是那个 <code>CSDN</code> 的博客一直空着了。</p>
+<p>入了前端之后才发现可以玩的东西有好多好多，在不断的学习过程中，发现只看和练习 <code>demo</code> 是记不住的，当你想给别人解释一个问题的时候，你必须得联系一个概念上下游的所有知识点，才能讲的比较明白。在这个过程中，会逼着你去复习遗忘的东西，去整理、联结零散的知识，于是我发现针对一个主题写下来是一个比较有用的整理知识的方式。</p>
+<a id="more"></a>
+<p>了解过之后，发现用 <code>GitPage</code> 搭一个静态博客最舒服，不需要你整服务器，只要写<br> <code>markdown</code> 就OK，还可以各种自定义主题。于是申请了一个域名，找到了N年以前在 <code>github</code> 准备的一个仓库，拉了一个 <code>hexo</code> 皮肤下来瞧了瞧，哎哟居然是 <code>ejs</code> 的模版，更舒服了啊，改了大概一天整成了现在这个样子。</p>
+<p> 原作者英文字体是 <code>Ubuntu</code> 的字体，我也觉得挺好看，但是要从 <code>Goole</code> 拉字体文件，你懂得，于是我去掉了 <code>Ubuntu</code> 字体先尽量保证速度，以后再想办法解决看看，毕竟 <strong>美就是生产力</strong>，哈哈。</p>
+<p><strong>皮肤来自于 <a href="http://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">hexo-theme-icarus</a></strong></p>
 <p>主要做了以下修改：</p>
 <ol>
 <li>为了能使更多精力聚焦在内容而不是左右边栏，将主页调整为两栏</li>
@@ -150,43 +150,47 @@
 <li>小小修改了 <code>Footer</code></li>
 <li>改了 <code>profile</code> 的 <code>widget</code></li>
 <li>添加置顶功能</li>
+<li>腾讯域名申请了证书，开启了 <code>HTTPS</code></li>
 </ol>
 <p>主要修改地方：</p>
 <ol>
 <li><p>样式 <code>style.styl</code></p>
 <p> 注释掉 <code>54</code> 行 <code>border-radius</code></p>
- <figure class="highlight styl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">.card</span><br><span class="line">    <span class="attribute">overflow</span>: hidden</span><br><span class="line">    <span class="comment">// border-radius: 4px</span></span><br><span class="line">    <span class="attribute">box-shadow</span>: <span class="number">0</span> <span class="number">4px</span> <span class="number">10px</span> rgba(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0.05</span>), <span class="number">0</span> <span class="number">0</span> <span class="number">1px</span> rgba(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0.1</span>)</span><br><span class="line">    &amp; + <span class="selector-class">.card</span>,</span><br><span class="line">......</span><br></pre></td></tr></table></figure>
+ <figure class="highlight styl hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">.card</span><br><span class="line">    <span class="hljs-attribute">overflow</span>: hidden</span><br><span class="line">    <span class="hljs-comment">// border-radius: 4px</span></span><br><span class="line">    <span class="hljs-attribute">box-shadow</span>: <span class="hljs-number">0</span> <span class="hljs-number">4px</span> <span class="hljs-number">10px</span> rgba(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0.05</span>), <span class="hljs-number">0</span> <span class="hljs-number">0</span> <span class="hljs-number">1px</span> rgba(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0.1</span>)</span><br><span class="line">    &amp; + <span class="hljs-selector-class">.card</span>,</span><br><span class="line">......</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>主页放边栏，文章页去掉</p>
 <p> 修改 <code>layout / layout.ejs</code> 第 <code>22</code> 行处</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;% if(page.path === &quot;index.html&quot;)&#123; %&gt;</span><br><span class="line">    &lt;div class=&quot;column &lt;%= main_column_class() %&gt; has-order-2 column-main&quot;&gt;&lt;%- body %&gt;&lt;/div&gt;</span><br><span class="line">    &lt;%- partial(&apos;common/widget&apos;, &#123; position: &apos;left&apos; &#125;) %&gt;</span><br><span class="line">    &lt;%- partial(&apos;common/widget&apos;, &#123; position: &apos;right&apos; &#125;) %&gt;</span><br><span class="line">&lt;%&#125;else&#123;%&gt;</span><br><span class="line">&lt;!-- in article page, put arcitle take all width--&gt;</span><br><span class="line">    &lt;div class=&quot;column is-12 has-order-2 column-main&quot;&gt;&lt;%- body %&gt;&lt;/div&gt;</span><br><span class="line">&lt;%&#125;%&gt;</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;% if(page.path === &quot;index.html&quot;)&#123; %&gt;</span><br><span class="line">    &lt;div class=&quot;column &lt;%= main_column_class() %&gt; has-order-2 column-main&quot;&gt;&lt;%- body %&gt;&lt;/div&gt;</span><br><span class="line">    &lt;%- partial(&apos;common/widget&apos;, &#123; position: &apos;left&apos; &#125;) %&gt;</span><br><span class="line">    &lt;%- partial(&apos;common/widget&apos;, &#123; position: &apos;right&apos; &#125;) %&gt;</span><br><span class="line">&lt;%&#125;else&#123;%&gt;</span><br><span class="line">&lt;!-- in article page, put arcitle take all width--&gt;</span><br><span class="line">    &lt;div class=&quot;column is-12 has-order-2 column-main&quot;&gt;&lt;%- body %&gt;&lt;/div&gt;</span><br><span class="line">&lt;%&#125;%&gt;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>个人信息栏修改 <code>layout / widget / profile.ejs</code> 第 <code>74</code> 行往下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;% if (socialLinks !== null) &#123; %&gt;</span><br><span class="line">    &lt;% for (let name in socialLinks) &#123;</span><br><span class="line">        let link = socialLinks[name]; %&gt;</span><br><span class="line">    &lt;div class=&quot;level is-mobile&quot;&gt;</span><br><span class="line">        &lt;i class=&quot;&lt;%= link.icon %&gt;&quot;&gt;&lt;/i&gt;</span><br><span class="line">        &lt;span&gt;&lt;%= link.url %&gt;&lt;/span&gt;</span><br><span class="line">     &lt;/div&gt;</span><br><span class="line">    &lt;% &#125; %&gt;</span><br><span class="line">&lt;% &#125; %&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;% if (socialLinks !== null) &#123; %&gt;</span><br><span class="line">    &lt;% for (let name in socialLinks) &#123;</span><br><span class="line">        let link = socialLinks[name]; %&gt;</span><br><span class="line">    &lt;div class=&quot;level is-mobile&quot;&gt;</span><br><span class="line">        &lt;i class=&quot;&lt;%= link.icon %&gt;&quot;&gt;&lt;/i&gt;</span><br><span class="line">        &lt;span&gt;&lt;%= link.url %&gt;&lt;/span&gt;</span><br><span class="line">     &lt;/div&gt;</span><br><span class="line">    &lt;% &#125; %&gt;</span><br><span class="line">&lt;% &#125; %&gt;</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<p>具体配置参考 <code>_config.yml</code> 文件，皮肤放在 <a href="https://github.com/fengscript/fengscript.github.io" target="_blank" rel="noopener">GayHub</a></p>
+<p>具体配置参考 <code>_config.yml</code> 文件，皮肤放在 <a href="https://github.com/fengscript/blog-theme" target="_blank" rel="noopener">GayHub</a>，您也可以拉下去随便玩，有问题可以随时联系我一起玩玩看。</p>
 <ol start="4">
 <li><p>置顶文章</p>
 <ol>
 <li>装一个 <code>npm install hexo-generator-index-pin-top --save</code></li>
 <li><p>先了解一下 <code>front-matter</code> （- -，自己百度一下吧），就是一篇 <code>markdown</code> 最顶上加上一段标记类似这样子：</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: 关于这个博客</span><br><span class="line">date: 2018-12-20 00:00:00</span><br><span class="line">......</span><br><span class="line">---</span><br><span class="line"></span><br><span class="line"><span class="section"># 正文内容</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight markdown hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: 关于这个博客</span><br><span class="line">date: 2018-12-20 00:00:00</span><br><span class="line">......</span><br><span class="line">---</span><br><span class="line"></span><br><span class="line"><span class="hljs-section"># 正文内容</span></span><br></pre></td></tr></table></figure>
 <p>明显，用三条短横线做了分隔，这里面添加的一些项目会被 <code>markdown</code> 识别，要置顶文章，在这里面加上 <code>top:true</code> 即可</p>
 </li>
 </ol>
 </li>
 </ol>
 <h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><p><strong>给文章实现分类、多个标签</strong><br>同上，在 <code>front-matter</code> 添加对应的语法，<code>tag</code> 和 目录 如下 ：</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: 关于这个博客</span><br><span class="line">date: 2018-12-20 00:00:00</span><br><span class="line">tags: </span><br><span class="line"><span class="code">    - hexo</span></span><br><span class="line"><span class="code">    - 随便写写</span></span><br><span class="line"></span><br><span class="line">categories:</span><br><span class="line"><span class="code">    - 前端</span></span><br><span class="line"><span class="code">    - 随便写写</span></span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+<figure class="highlight markdown hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: 关于这个博客</span><br><span class="line">date: 2018-12-20 00:00:00</span><br><span class="line">tags: </span><br><span class="line"><span class="hljs-code">    - hexo</span></span><br><span class="line"><span class="hljs-code">    - 随便写写</span></span><br><span class="line"></span><br><span class="line">categories:</span><br><span class="line"><span class="hljs-code">    - 前端</span></span><br><span class="line"><span class="hljs-code">    - 随便写写</span></span><br><span class="line">---</span><br></pre></td></tr></table></figure>
 <p>ToDoList:</p>
 <ul>
-<li style="list-style: none"><input type="checkbox"> 添加回复块</li>
+<li style="list-style: none"><input type="checkbox" checked> 添加回复块</li>
 <li style="list-style: none"><input type="checkbox"> 页内目录</li>
 <li style="list-style: none"><input type="checkbox"> CI 持续集成</li>
 <li style="list-style: none"><input type="checkbox"> 搬一份到 <code>Coding Page</code>, 国内访问解析到 <code>Coding Page</code></li>
+<li style="list-style: none"><input type="checkbox"> 添加 <code>sitemap</code>，添加百度索引</li>
 </ul>
 <p>有问题 / 意见，可以微信或者邮件我</p>
+<hr>
+<p>更新： 18-12-20 添加了 <code>valine</code> 评论模块</p>
 
         </div>
         
@@ -194,7 +198,7 @@
             <div class="level-start">
                 <div class="level-item">
                     <span class="is-size-6 has-text-grey has-mr-7">#</span>
-                    <a class="has-link-grey -link" href="/tags/hexo/">hexo</a>, <a class="has-link-grey -link" href="/tags/随便写写/">随便写写</a>
+                    <a class="has-link-grey -link" href="/tags/hexo/">hexo</a>
                 </div>
             </div>
         </div>
@@ -207,6 +211,13 @@
 
 <div class="card card-transparent">
     <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2018/12/20/phone-sensor/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item"></span>
+            </a>
+        </div>
         
         
         <div class="level-end">
@@ -255,14 +266,14 @@
                 <time class="level-item has-text-grey" datetime="2018-12-19T16:00:00.000Z">2018-12-20</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/前端/">前端</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/前端/随便写写/">随便写写</a>
+                <a class="has-link-grey -link" href="/categories/前端/">前端</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    4 分钟 读完 (大约 642 个字)
+                    6 分钟 读完 (大约 954 个字)
                 </span>
                 
             </div>
@@ -274,12 +285,12 @@
             
         </h1>
         <div class="content">
-            <blockquote>
-<p>很久以前，开始学前端的时候，在 <code>CSDN</code> 放了一个博客，更新每天的笔记。当时当然菜也的要不要的，每天更新了一堆抄上去的 <code>css</code> 笔记。那个博客默认的页面、到处充斥的广告简直要了卿命，于是想自己搭一个博客。研究了一阵 <code>WordPress</code> 发现还要搭到服务器上麻烦的不行，于是盯上了 <code>Hexo</code>。</p>
-</blockquote>
-<blockquote>
-<p>慢慢的，算勉强入了门，也熟悉了 <code>Node</code>，于是找了一个皮肤，整成了现在这个想要的样子，准备整理笔记、逼自己输出内容来锻炼思维<br><a id="more"></a><br><strong>本博客皮肤来自于 <a href="http://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">hexo-theme-icarus</a></strong></p>
-</blockquote>
+            <p>很久以前，开始学前端的时候，在 <code>CSDN</code> 放了一个博客，更新每天的笔记。当时当然也菜的不要不要的，每天更新了一堆 <code>css</code> 笔记。后来找到了实习就没时间再更新，于是那个 <code>CSDN</code> 的博客一直空着了。</p>
+<p>入了前端之后才发现可以玩的东西有好多好多，在不断的学习过程中，发现只看和练习 <code>demo</code> 是记不住的，当你想给别人解释一个问题的时候，你必须得联系一个概念上下游的所有知识点，才能讲的比较明白。在这个过程中，会逼着你去复习遗忘的东西，去整理、联结零散的知识，于是我发现针对一个主题写下来是一个比较有用的整理知识的方式。</p>
+<a id="more"></a>
+<p>了解过之后，发现用 <code>GitPage</code> 搭一个静态博客最舒服，不需要你整服务器，只要写<br> <code>markdown</code> 就OK，还可以各种自定义主题。于是申请了一个域名，找到了N年以前在 <code>github</code> 准备的一个仓库，拉了一个 <code>hexo</code> 皮肤下来瞧了瞧，哎哟居然是 <code>ejs</code> 的模版，更舒服了啊，改了大概一天整成了现在这个样子。</p>
+<p> 原作者英文字体是 <code>Ubuntu</code> 的字体，我也觉得挺好看，但是要从 <code>Goole</code> 拉字体文件，你懂得，于是我去掉了 <code>Ubuntu</code> 字体先尽量保证速度，以后再想办法解决看看，毕竟 <strong>美就是生产力</strong>，哈哈。</p>
+<p><strong>皮肤来自于 <a href="http://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">hexo-theme-icarus</a></strong></p>
 <p>主要做了以下修改：</p>
 <ol>
 <li>为了能使更多精力聚焦在内容而不是左右边栏，将主页调整为两栏</li>
@@ -288,43 +299,47 @@
 <li>小小修改了 <code>Footer</code></li>
 <li>改了 <code>profile</code> 的 <code>widget</code></li>
 <li>添加置顶功能</li>
+<li>腾讯域名申请了证书，开启了 <code>HTTPS</code></li>
 </ol>
 <p>主要修改地方：</p>
 <ol>
 <li><p>样式 <code>style.styl</code></p>
 <p> 注释掉 <code>54</code> 行 <code>border-radius</code></p>
- <figure class="highlight styl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">.card</span><br><span class="line">    <span class="attribute">overflow</span>: hidden</span><br><span class="line">    <span class="comment">// border-radius: 4px</span></span><br><span class="line">    <span class="attribute">box-shadow</span>: <span class="number">0</span> <span class="number">4px</span> <span class="number">10px</span> rgba(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0.05</span>), <span class="number">0</span> <span class="number">0</span> <span class="number">1px</span> rgba(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0.1</span>)</span><br><span class="line">    &amp; + <span class="selector-class">.card</span>,</span><br><span class="line">......</span><br></pre></td></tr></table></figure>
+ <figure class="highlight styl hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">.card</span><br><span class="line">    <span class="hljs-attribute">overflow</span>: hidden</span><br><span class="line">    <span class="hljs-comment">// border-radius: 4px</span></span><br><span class="line">    <span class="hljs-attribute">box-shadow</span>: <span class="hljs-number">0</span> <span class="hljs-number">4px</span> <span class="hljs-number">10px</span> rgba(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0.05</span>), <span class="hljs-number">0</span> <span class="hljs-number">0</span> <span class="hljs-number">1px</span> rgba(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0.1</span>)</span><br><span class="line">    &amp; + <span class="hljs-selector-class">.card</span>,</span><br><span class="line">......</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>主页放边栏，文章页去掉</p>
 <p> 修改 <code>layout / layout.ejs</code> 第 <code>22</code> 行处</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;% if(page.path === &quot;index.html&quot;)&#123; %&gt;</span><br><span class="line">    &lt;div class=&quot;column &lt;%= main_column_class() %&gt; has-order-2 column-main&quot;&gt;&lt;%- body %&gt;&lt;/div&gt;</span><br><span class="line">    &lt;%- partial(&apos;common/widget&apos;, &#123; position: &apos;left&apos; &#125;) %&gt;</span><br><span class="line">    &lt;%- partial(&apos;common/widget&apos;, &#123; position: &apos;right&apos; &#125;) %&gt;</span><br><span class="line">&lt;%&#125;else&#123;%&gt;</span><br><span class="line">&lt;!-- in article page, put arcitle take all width--&gt;</span><br><span class="line">    &lt;div class=&quot;column is-12 has-order-2 column-main&quot;&gt;&lt;%- body %&gt;&lt;/div&gt;</span><br><span class="line">&lt;%&#125;%&gt;</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;% if(page.path === &quot;index.html&quot;)&#123; %&gt;</span><br><span class="line">    &lt;div class=&quot;column &lt;%= main_column_class() %&gt; has-order-2 column-main&quot;&gt;&lt;%- body %&gt;&lt;/div&gt;</span><br><span class="line">    &lt;%- partial(&apos;common/widget&apos;, &#123; position: &apos;left&apos; &#125;) %&gt;</span><br><span class="line">    &lt;%- partial(&apos;common/widget&apos;, &#123; position: &apos;right&apos; &#125;) %&gt;</span><br><span class="line">&lt;%&#125;else&#123;%&gt;</span><br><span class="line">&lt;!-- in article page, put arcitle take all width--&gt;</span><br><span class="line">    &lt;div class=&quot;column is-12 has-order-2 column-main&quot;&gt;&lt;%- body %&gt;&lt;/div&gt;</span><br><span class="line">&lt;%&#125;%&gt;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>个人信息栏修改 <code>layout / widget / profile.ejs</code> 第 <code>74</code> 行往下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;% if (socialLinks !== null) &#123; %&gt;</span><br><span class="line">    &lt;% for (let name in socialLinks) &#123;</span><br><span class="line">        let link = socialLinks[name]; %&gt;</span><br><span class="line">    &lt;div class=&quot;level is-mobile&quot;&gt;</span><br><span class="line">        &lt;i class=&quot;&lt;%= link.icon %&gt;&quot;&gt;&lt;/i&gt;</span><br><span class="line">        &lt;span&gt;&lt;%= link.url %&gt;&lt;/span&gt;</span><br><span class="line">     &lt;/div&gt;</span><br><span class="line">    &lt;% &#125; %&gt;</span><br><span class="line">&lt;% &#125; %&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;% if (socialLinks !== null) &#123; %&gt;</span><br><span class="line">    &lt;% for (let name in socialLinks) &#123;</span><br><span class="line">        let link = socialLinks[name]; %&gt;</span><br><span class="line">    &lt;div class=&quot;level is-mobile&quot;&gt;</span><br><span class="line">        &lt;i class=&quot;&lt;%= link.icon %&gt;&quot;&gt;&lt;/i&gt;</span><br><span class="line">        &lt;span&gt;&lt;%= link.url %&gt;&lt;/span&gt;</span><br><span class="line">     &lt;/div&gt;</span><br><span class="line">    &lt;% &#125; %&gt;</span><br><span class="line">&lt;% &#125; %&gt;</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<p>具体配置参考 <code>_config.yml</code> 文件，皮肤放在 <a href="https://github.com/fengscript/fengscript.github.io" target="_blank" rel="noopener">GayHub</a></p>
+<p>具体配置参考 <code>_config.yml</code> 文件，皮肤放在 <a href="https://github.com/fengscript/blog-theme" target="_blank" rel="noopener">GayHub</a>，您也可以拉下去随便玩，有问题可以随时联系我一起玩玩看。</p>
 <ol start="4">
 <li><p>置顶文章</p>
 <ol>
 <li>装一个 <code>npm install hexo-generator-index-pin-top --save</code></li>
 <li><p>先了解一下 <code>front-matter</code> （- -，自己百度一下吧），就是一篇 <code>markdown</code> 最顶上加上一段标记类似这样子：</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: 关于这个博客</span><br><span class="line">date: 2018-12-20 00:00:00</span><br><span class="line">......</span><br><span class="line">---</span><br><span class="line"></span><br><span class="line"><span class="section"># 正文内容</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight markdown hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: 关于这个博客</span><br><span class="line">date: 2018-12-20 00:00:00</span><br><span class="line">......</span><br><span class="line">---</span><br><span class="line"></span><br><span class="line"><span class="hljs-section"># 正文内容</span></span><br></pre></td></tr></table></figure>
 <p>明显，用三条短横线做了分隔，这里面添加的一些项目会被 <code>markdown</code> 识别，要置顶文章，在这里面加上 <code>top:true</code> 即可</p>
 </li>
 </ol>
 </li>
 </ol>
 <h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><p><strong>给文章实现分类、多个标签</strong><br>同上，在 <code>front-matter</code> 添加对应的语法，<code>tag</code> 和 目录 如下 ：</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: 关于这个博客</span><br><span class="line">date: 2018-12-20 00:00:00</span><br><span class="line">tags: </span><br><span class="line"><span class="code">    - hexo</span></span><br><span class="line"><span class="code">    - 随便写写</span></span><br><span class="line"></span><br><span class="line">categories:</span><br><span class="line"><span class="code">    - 前端</span></span><br><span class="line"><span class="code">    - 随便写写</span></span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+<figure class="highlight markdown hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: 关于这个博客</span><br><span class="line">date: 2018-12-20 00:00:00</span><br><span class="line">tags: </span><br><span class="line"><span class="hljs-code">    - hexo</span></span><br><span class="line"><span class="hljs-code">    - 随便写写</span></span><br><span class="line"></span><br><span class="line">categories:</span><br><span class="line"><span class="hljs-code">    - 前端</span></span><br><span class="line"><span class="hljs-code">    - 随便写写</span></span><br><span class="line">---</span><br></pre></td></tr></table></figure>
 <p>ToDoList:</p>
 <ul>
-<li style="list-style: none"><input type="checkbox"> 添加回复块</li>
+<li style="list-style: none"><input type="checkbox" checked> 添加回复块</li>
 <li style="list-style: none"><input type="checkbox"> 页内目录</li>
 <li style="list-style: none"><input type="checkbox"> CI 持续集成</li>
 <li style="list-style: none"><input type="checkbox"> 搬一份到 <code>Coding Page</code>, 国内访问解析到 <code>Coding Page</code></li>
+<li style="list-style: none"><input type="checkbox"> 添加 <code>sitemap</code>，添加百度索引</li>
 </ul>
 <p>有问题 / 意见，可以微信或者邮件我</p>
+<hr>
+<p>更新： 18-12-20 添加了 <code>valine</code> 评论模块</p>
 
         </div>
         
@@ -332,7 +347,7 @@
             <div class="level-start">
                 <div class="level-item">
                     <span class="is-size-6 has-text-grey has-mr-7">#</span>
-                    <a class="has-link-grey -link" href="/tags/hexo/">hexo</a>, <a class="has-link-grey -link" href="/tags/随便写写/">随便写写</a>
+                    <a class="has-link-grey -link" href="/tags/hexo/">hexo</a>
                 </div>
             </div>
         </div>
@@ -345,6 +360,13 @@
 
 <div class="card card-transparent">
     <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2018/12/20/phone-sensor/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item"></span>
+            </a>
+        </div>
         
         
         <div class="level-end">
@@ -401,7 +423,7 @@
                 <!-- add by fyg -->
                 <p class="is-size-10">
                     This Two-columns Theme At
-                    <a href="https://github.com/fengscript/fengscript.github.io"><i class="fab fa-github"></i></a>
+                    <a href="https://github.com/fengscript/blog-theme"><i class="fab fa-github"></i></a>
                 </p>
             </div>
             <div class="level-end">
