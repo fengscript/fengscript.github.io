@@ -121,6 +121,92 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-12-27T15:00:00.000Z">2018-12-27</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/前端/">前端</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    8 分钟 读完 (大约 1157 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2018/12/27/肯定能看懂的jsonp/">肯定能看懂的jsonp</a>
+            
+        </h1>
+        <div class="content">
+            <p><code>jsonp</code>是以前我们用来解决跨域问题的主要手段之一，当时刚接触到我是懵逼的，这个东西跟 <code>json</code> 有个毛的关系？</p>
+<p>为什么在 <code>Postman</code> 里面可以跑通的接口，浏览器里面就不行了？</p>
+<h2 id="JSONP"><a href="#JSONP" class="headerlink" title="JSONP"></a>JSONP</h2><p>首先，浏览器的同源策略要求的正常通信，包括<strong>协议、域名、端口号</strong>都要完全一致。</p>
+<p><code>跨域</code> 并不是请求发不出去，请求可以正常发出去，服务端能收到请求并正常返回结果，只是<code>结果被浏览器拦截了</code>，比如你可以在 <code>F12 - NetWork - XHR</code>中看到返回的数据</p>
+<p>我们晓得， <code>HTML</code> 有一些标签可以填进去 <code>src</code> 属性来加载外面的资源，比如： <code>&lt;script&gt;</code>,<code>&lt;img&gt;</code>，而这些标签加载资源，是<strong>可以跨域加载的</strong>。</p>
+<p><code>jsonp</code> 就是利用这些标签能跨域加载资源的特性，来获取服务器上的脚本并执行</p>
+<p>为什么会被叫做 <code>jsonp</code> ？ 它名字的意义是 <code>json + padding</code>，即，把服务器上的数据，以 <code>json</code> 格式拼接 / 附加（padding）成字符串，然后发回来拼接后的函数及参数</p>
+<p>流程：</p>
+<ol>
+<li>声明一个回调函数，其函数名(如fb)当做参数值要传递给跨域请求数据的服务器，函数形参为要获取的目标数据(服务器返回的data)。</li>
+<li>创建一个 <code>&lt;script&gt;</code> 标签，把跨域的接口地址赋给 <code>script</code> 的 <code>src</code> ,在这个地址中向服务器传递该函数名（可以通过问号传参:?callback=fn）。</li>
+<li>服务器接收到请求后，会把传递进来的函数名和它需要给你的数据拼接成一个 <code>json</code> 字符串,例如：传递进去的函数名是fn，它准备好的数据是<code>fn([{&quot;name&quot;:&quot;test&quot;}])</code>。</li>
+<li>最后服务器把准备的数据返回给客户端，浏览器通过 <code>&lt;script&gt;</code> 标签 <code>src</code> 拿到前面拼接好的内容执行，于是我们就可以对拿到的数据进行操作。</li>
+</ol>
+<p>比如淘宝这个API：<br><code>http://suggest.taobao.com/sug</code><br>有两个参数</p>
+<ul>
+<li><code>q</code>：你要查询的商品名称</li>
+<li><code>callback</code>：你给它的回调函数名字</li>
+</ul>
+<p>比如<br><figure class="highlight html hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">...html</span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="hljs-undefined"></span></span><br><span class="line"><span class="hljs-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">FYGJsonPTest</span> (<span class="hljs-params">data</span>) </span>&#123;</span></span><br><span class="line"><span class="hljs-javascript">  <span class="hljs-built_in">console</span>.log(data);</span></span><br><span class="line"><span class="hljs-undefined">&#125;</span></span><br><span class="line"><span class="hljs-undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"http://suggest.taobao.com/sug?q=aaa&amp;callback=FYGJsonPTest"</span>&gt;</span><span class="hljs-undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p><a href="https://segmentfault.com/a/1190000016756432" target="_blank" rel="noopener">部分摘自 segmentfault</a></p>
+<p>当然实际可操作的地方更多，根据服务器配合，可以自定义回调函数的名字或者临时组装一个 <code>script</code> 标签用完再删除掉等等（比如 <code>jQuery</code> 的 <code>ajax</code> 的 <code>JSONP</code> 模式就是包装了这些活儿）</p>
+<p>在 <code>jQuery</code> 使用 <code>ajax</code> 以 <code>jsonp</code> 获取数据失败时，试试加上<br><figure class="highlight js hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crossDomain: <span class="hljs-literal">true</span></span><br></pre></td></tr></table></figure></p>
+<p> <code>jsonp</code>的缺点：</p>
+<ul>
+<li>仅支持 <code>get</code>请求</li>
+<li>JSONP请求一定需要对方的服务器做支持返回 <code>json</code>格式的数据。</li>
+</ul>
+<h2 id="CORS"><a href="#CORS" class="headerlink" title="CORS"></a>CORS</h2><p><code>CORS</code> 本名曰： <code>Cross-Origin Resource Sharing</code> ，是H5自带的一项特性，规定了浏览器在跨域访问资源时和服务器怎么通信</p>
+<p>在检测到跨域访问时，浏览器会检查响应头 <code>Access-Control-Allow-Origin</code> ，如果包含本域，则跨域请求成功，不是则请求失败，我们就拿不到到响应的数据。</p>
+<p>它将对服务器的请求分为了 <code>简单请求</code> 和 <code>复杂请求</code> 两种</p>
+<ul>
+<li><code>简单请求</code>：<code>GET</code>、<code>POST</code></li>
+<li><code>复杂请求</code>：<code>PUT</code>，<code>DELETE</code>等其他类型如<code>application/json</code>的 <code>POST</code> 请求</li>
+</ul>
+<p>对于 <code>复杂请求</code> ，在发送 <code>ajax</code> 之前，浏览器会先发送一个称为 <code>preflighted</code> 的 <code>OPTIONS</code> 请求，询问目标服务器是否接受接下来的请求的方法，服务器响应的 <code>Access-Control-Allow-Methods</code>头中包含将要发送请求的 <code>Method</code> 时，才会继续发送请求，否则将抛出错误</p>
+<p>整个 <code>CORS</code> 通信过程，都是浏览器自动完成，不需要用户参与，<strong>需要服务器支持</strong></p>
+<p>比如一个<code>php</code>服务器的设置：<br><figure class="highlight php hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">header(<span class="hljs-string">"Access-Control-Allow-Origin:*"</span>);</span><br><span class="line">header(<span class="hljs-string">"Access-Control-Allow-Methods:POST,GET"</span>);</span><br></pre></td></tr></table></figure></p>
+<p>不过这种设置存在安全性隐患，因为 <code>Allow-Origin</code> 设置成了 <code>*</code> 通配符，会允许所有域，项目上最好设置成自己服务器的域名和目录</p>
+<p>常见其他跨域方式：</p>
+<ul>
+<li>WebSocket</li>
+<li>postMessage</li>
+</ul>
+<p>可以自己了解一下</p>
+<p>然后大家可以在研究一下开始的问题： <em>为什么在 <code>Postman</code> 里面可以跑通的接口，浏览器里面就不行了？</em></p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2018-12-19T15:00:00.000Z">2018-12-19</time>
                 
                 <div class="level-item">
@@ -183,6 +269,92 @@
         </nav>
     </div>
 </div>
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-12-27T15:00:00.000Z">2018-12-27</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/前端/">前端</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    8 分钟 读完 (大约 1157 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2018/12/27/肯定能看懂的jsonp/">肯定能看懂的jsonp</a>
+            
+        </h1>
+        <div class="content">
+            <p><code>jsonp</code>是以前我们用来解决跨域问题的主要手段之一，当时刚接触到我是懵逼的，这个东西跟 <code>json</code> 有个毛的关系？</p>
+<p>为什么在 <code>Postman</code> 里面可以跑通的接口，浏览器里面就不行了？</p>
+<h2 id="JSONP"><a href="#JSONP" class="headerlink" title="JSONP"></a>JSONP</h2><p>首先，浏览器的同源策略要求的正常通信，包括<strong>协议、域名、端口号</strong>都要完全一致。</p>
+<p><code>跨域</code> 并不是请求发不出去，请求可以正常发出去，服务端能收到请求并正常返回结果，只是<code>结果被浏览器拦截了</code>，比如你可以在 <code>F12 - NetWork - XHR</code>中看到返回的数据</p>
+<p>我们晓得， <code>HTML</code> 有一些标签可以填进去 <code>src</code> 属性来加载外面的资源，比如： <code>&lt;script&gt;</code>,<code>&lt;img&gt;</code>，而这些标签加载资源，是<strong>可以跨域加载的</strong>。</p>
+<p><code>jsonp</code> 就是利用这些标签能跨域加载资源的特性，来获取服务器上的脚本并执行</p>
+<p>为什么会被叫做 <code>jsonp</code> ？ 它名字的意义是 <code>json + padding</code>，即，把服务器上的数据，以 <code>json</code> 格式拼接 / 附加（padding）成字符串，然后发回来拼接后的函数及参数</p>
+<p>流程：</p>
+<ol>
+<li>声明一个回调函数，其函数名(如fb)当做参数值要传递给跨域请求数据的服务器，函数形参为要获取的目标数据(服务器返回的data)。</li>
+<li>创建一个 <code>&lt;script&gt;</code> 标签，把跨域的接口地址赋给 <code>script</code> 的 <code>src</code> ,在这个地址中向服务器传递该函数名（可以通过问号传参:?callback=fn）。</li>
+<li>服务器接收到请求后，会把传递进来的函数名和它需要给你的数据拼接成一个 <code>json</code> 字符串,例如：传递进去的函数名是fn，它准备好的数据是<code>fn([{&quot;name&quot;:&quot;test&quot;}])</code>。</li>
+<li>最后服务器把准备的数据返回给客户端，浏览器通过 <code>&lt;script&gt;</code> 标签 <code>src</code> 拿到前面拼接好的内容执行，于是我们就可以对拿到的数据进行操作。</li>
+</ol>
+<p>比如淘宝这个API：<br><code>http://suggest.taobao.com/sug</code><br>有两个参数</p>
+<ul>
+<li><code>q</code>：你要查询的商品名称</li>
+<li><code>callback</code>：你给它的回调函数名字</li>
+</ul>
+<p>比如<br><figure class="highlight html hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">...html</span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="hljs-undefined"></span></span><br><span class="line"><span class="hljs-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">FYGJsonPTest</span> (<span class="hljs-params">data</span>) </span>&#123;</span></span><br><span class="line"><span class="hljs-javascript">  <span class="hljs-built_in">console</span>.log(data);</span></span><br><span class="line"><span class="hljs-undefined">&#125;</span></span><br><span class="line"><span class="hljs-undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"http://suggest.taobao.com/sug?q=aaa&amp;callback=FYGJsonPTest"</span>&gt;</span><span class="hljs-undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p><a href="https://segmentfault.com/a/1190000016756432" target="_blank" rel="noopener">部分摘自 segmentfault</a></p>
+<p>当然实际可操作的地方更多，根据服务器配合，可以自定义回调函数的名字或者临时组装一个 <code>script</code> 标签用完再删除掉等等（比如 <code>jQuery</code> 的 <code>ajax</code> 的 <code>JSONP</code> 模式就是包装了这些活儿）</p>
+<p>在 <code>jQuery</code> 使用 <code>ajax</code> 以 <code>jsonp</code> 获取数据失败时，试试加上<br><figure class="highlight js hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crossDomain: <span class="hljs-literal">true</span></span><br></pre></td></tr></table></figure></p>
+<p> <code>jsonp</code>的缺点：</p>
+<ul>
+<li>仅支持 <code>get</code>请求</li>
+<li>JSONP请求一定需要对方的服务器做支持返回 <code>json</code>格式的数据。</li>
+</ul>
+<h2 id="CORS"><a href="#CORS" class="headerlink" title="CORS"></a>CORS</h2><p><code>CORS</code> 本名曰： <code>Cross-Origin Resource Sharing</code> ，是H5自带的一项特性，规定了浏览器在跨域访问资源时和服务器怎么通信</p>
+<p>在检测到跨域访问时，浏览器会检查响应头 <code>Access-Control-Allow-Origin</code> ，如果包含本域，则跨域请求成功，不是则请求失败，我们就拿不到到响应的数据。</p>
+<p>它将对服务器的请求分为了 <code>简单请求</code> 和 <code>复杂请求</code> 两种</p>
+<ul>
+<li><code>简单请求</code>：<code>GET</code>、<code>POST</code></li>
+<li><code>复杂请求</code>：<code>PUT</code>，<code>DELETE</code>等其他类型如<code>application/json</code>的 <code>POST</code> 请求</li>
+</ul>
+<p>对于 <code>复杂请求</code> ，在发送 <code>ajax</code> 之前，浏览器会先发送一个称为 <code>preflighted</code> 的 <code>OPTIONS</code> 请求，询问目标服务器是否接受接下来的请求的方法，服务器响应的 <code>Access-Control-Allow-Methods</code>头中包含将要发送请求的 <code>Method</code> 时，才会继续发送请求，否则将抛出错误</p>
+<p>整个 <code>CORS</code> 通信过程，都是浏览器自动完成，不需要用户参与，<strong>需要服务器支持</strong></p>
+<p>比如一个<code>php</code>服务器的设置：<br><figure class="highlight php hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">header(<span class="hljs-string">"Access-Control-Allow-Origin:*"</span>);</span><br><span class="line">header(<span class="hljs-string">"Access-Control-Allow-Methods:POST,GET"</span>);</span><br></pre></td></tr></table></figure></p>
+<p>不过这种设置存在安全性隐患，因为 <code>Allow-Origin</code> 设置成了 <code>*</code> 通配符，会允许所有域，项目上最好设置成自己服务器的域名和目录</p>
+<p>常见其他跨域方式：</p>
+<ul>
+<li>WebSocket</li>
+<li>postMessage</li>
+</ul>
+<p>可以自己了解一下</p>
+<p>然后大家可以在研究一下开始的问题： <em>为什么在 <code>Postman</code> 里面可以跑通的接口，浏览器里面就不行了？</em></p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
 
     <div class="card">
     
