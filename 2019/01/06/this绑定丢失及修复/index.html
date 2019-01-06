@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>this 绑定丢失及修复 - 冯学渣的博客</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<!-- remove google to acclerate -->
+<!--  -->
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-2-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/favicon.svg" alt="this 绑定丢失及修复" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/">主页</a>
+                
+                <a class="navbar-item" href="/categories">分类</a>
+                
+                <a class="navbar-item" href="/tags">标签</a>
+                
+                <a class="navbar-item" href="/archives">归档</a>
+                
+                <a class="navbar-item" href="/about">关于我</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <!-- <div class="column is-8-tablet is-8-desktop is-8-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-01-05T16:22:28.000Z">2019-01-06</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/前端/">前端</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    6 分钟 读完 (大约 841 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                this 绑定丢失及修复
+            
+        </h1>
+        <div class="content">
+            <p>在 <code>Javascript</code> 中， <code>this</code> 关键字经常在我们不注意的时候就被错误引用，得到意料之外的结果，所以我自己对 <code>this</code> 引用丢失及修复的方式整理总结一下。</p>
+<h1 id="1-指向哪儿？"><a href="#1-指向哪儿？" class="headerlink" title="1 指向哪儿？"></a>1 指向哪儿？</h1><p>首先明确一下， <code>this</code> 是一个指向函数被调用时候的<code>执行上下文</code>的指针。</p>
+<p><code>执行上下文</code>中包含了函数的调用栈、函数调用方式、传入的参数等信息</p>
+<p><strong><code>this</code> 的绑定发生在<code>运行时</code>，它指向什么完全取决于函数在哪里被调用</strong></p>
+<a id="more"></a>
+<h1 id="2-this-绑定"><a href="#2-this-绑定" class="headerlink" title="2 this 绑定"></a>2 <code>this</code> 绑定</h1><h2 id="2-1-默认绑定"><a href="#2-1-默认绑定" class="headerlink" title="2.1 默认绑定"></a>2.1 默认绑定</h2><p>当在独立函数中使用 <code>this</code> 时，指向全局对象（ <code>window</code> / <code>global</code> ）：</p>
+<figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword">this</span>.a);</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-keyword">var</span> a = <span class="hljs-number">1</span>;</span><br><span class="line">foo(); <span class="hljs-comment">//1</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>但是 <code>严格模式</code> 下。 <code>this</code> 绑定到 <code>undefined</code></p>
+</blockquote>
+<h2 id="2-2-隐式绑定"><a href="#2-2-隐式绑定" class="headerlink" title="2.2 隐式绑定"></a>2.2 隐式绑定</h2><p> 函数引用有上下文对象时，<code>this</code> 会隐式被绑定到 <strong>这个上下文对象</strong>，而且 <strong>对象属性引用链中只有最后一层在调用位置中起作用</strong>：</p>
+ <figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword">this</span>.a);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">var</span> obj = &#123;</span><br><span class="line">  a: <span class="hljs-number">0</span>,</span><br><span class="line">  foo: foo</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">var</span> obj2 = &#123;</span><br><span class="line">  a: <span class="hljs-number">1</span>,</span><br><span class="line">  obj: obj</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">obj1.obj.foo(); <span class="hljs-comment">// 0</span></span><br></pre></td></tr></table></figure>
+<h2 id="2-3-new-绑定"><a href="#2-3-new-绑定" class="headerlink" title="2.3 new 绑定"></a>2.3 <code>new</code> 绑定</h2><p> 使用 <code>new</code> 实例化一个构造函数时，会有以下步骤：</p>
+<ol>
+<li>创建一个新对象</li>
+<li>把新对象内部的 <code>[[Prototype]]</code> 链接到构造函数的原型对象</li>
+<li><strong>将新对象绑定到函数调用的 <code>this</code></strong></li>
+<li>返回新对象或者返回指定的对象</li>
+</ol>
+<p>比如：</p>
+<figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Foo</span>(<span class="hljs-params">a</span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">this</span>.a = a;</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-keyword">var</span> bar = <span class="hljs-keyword">new</span> Foo(<span class="hljs-number">2</span>);</span><br><span class="line"><span class="hljs-built_in">console</span>.log(bar.a); <span class="hljs-comment">// 2</span></span><br></pre></td></tr></table></figure>
+<h1 id="3-绑定丢失"><a href="#3-绑定丢失" class="headerlink" title="3 绑定丢失"></a>3 绑定丢失</h1><p>在 <code>隐式绑定</code> 中，有些情况下会发生引用丢失的问题</p>
+<h2 id="3-1-引用函数时丢失"><a href="#3-1-引用函数时丢失" class="headerlink" title="3.1 引用函数时丢失"></a>3.1 引用函数时丢失</h2><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword">this</span>.a);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">var</span> obj = &#123;</span><br><span class="line">  a: <span class="hljs-number">0</span>,</span><br><span class="line">  foo: foo</span><br><span class="line">&#125;;</span><br><span class="line"><span class="hljs-keyword">var</span> a = <span class="hljs-string">"global"</span>;</span><br><span class="line"><span class="hljs-keyword">var</span> baz = obj.foo;</span><br><span class="line">baz(); <span class="hljs-comment">// 'global' on browser   undefined on node</span></span><br></pre></td></tr></table></figure>
+<p><code>var baz = obj.foo</code> 的引用，实际上是引用了 <code>foo</code> 函数自身，因此在调用函数 <code>baz</code> 时候，相当于在 <code>全局环境</code> 调用了 <code>foo</code></p>
+<h2 id="3-2-传入回调函数丢失"><a href="#3-2-传入回调函数丢失" class="headerlink" title="3.2 传入回调函数丢失"></a>3.2 传入回调函数丢失</h2><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword">this</span>.a);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">bar</span>(<span class="hljs-params">fn</span>) </span>&#123;</span><br><span class="line">  <span class="hljs-comment">// fn 实际上引用的是 foo</span></span><br><span class="line">  fn();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">var</span> obj = &#123;</span><br><span class="line">  a: <span class="hljs-number">0</span>,</span><br><span class="line">  foo: foo</span><br><span class="line">&#125;;</span><br><span class="line"><span class="hljs-keyword">var</span> a = <span class="hljs-string">"global"</span>;</span><br><span class="line">bar(obj.foo); <span class="hljs-comment">// 'global' on browser   undefined on node</span></span><br></pre></td></tr></table></figure>
+<h2 id="3-3-setTimeout"><a href="#3-3-setTimeout" class="headerlink" title="3.3 setTimeout"></a>3.3 <code>setTimeout</code></h2><p>   <code>setTimeout</code>的回调函数会在全局环境（ <code>window</code> / <code>global</code> ）被执行，即：</p>
+<figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> obj2 = &#123;</span><br><span class="line">  timer() &#123;</span><br><span class="line">    setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">      <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword">this</span>); <span class="hljs-comment">//window</span></span><br><span class="line">    &#125;, <span class="hljs-number">1000</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">obj2.timer();</span><br></pre></td></tr></table></figure>
+<h1 id="4-修改指向"><a href="#4-修改指向" class="headerlink" title="4 修改指向"></a>4 修改指向</h1><p>为了纠正以上 <code>隐式传递</code> 产生的绑定丢失，我们可以用以下方式来纠正 / 修改 <code>this</code> 指向</p>
+<h2 id="4-1-显式绑定（-call-apply-bind）"><a href="#4-1-显式绑定（-call-apply-bind）" class="headerlink" title="4.1 显式绑定（ call,apply,bind）"></a>4.1 显式绑定（ <code>call</code>,<code>apply</code>,<code>bind</code>）</h2><p>即手动、明确的给函数指定一个执行上下文：</p>
+<p>比如上面函数传递丢失：</p>
+<figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword">this</span>.a);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">var</span> obj = &#123;</span><br><span class="line">  a: <span class="hljs-number">0</span>,</span><br><span class="line">  foo: foo</span><br><span class="line">&#125;;</span><br><span class="line"><span class="hljs-keyword">var</span> a = <span class="hljs-string">"global"</span>;</span><br><span class="line"><span class="hljs-keyword">var</span> baz = obj.foo;</span><br><span class="line">baz.call(obj); <span class="hljs-comment">// 0</span></span><br></pre></td></tr></table></figure>
+<p><code>call</code>,<code>apply</code>,<code>bind</code> 也是很好玩的三个方法，有空再另写一篇详细区分一下</p>
+<h2 id="4-2-arrow-function"><a href="#4-2-arrow-function" class="headerlink" title="4.2 arrow function"></a>4.2 <code>arrow function</code></h2><p>   <code>Es6</code> 的 <code>arrow function</code> 会根据外层作用域来决定 <code>this</code> 的指向，从而避免 <code>this</code> 指向丢失：</p>
+<figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> obj3 = &#123;</span><br><span class="line">  timer() &#123;</span><br><span class="line">    setTimeout(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword">this</span>); <span class="hljs-comment">//function timer</span></span><br><span class="line">    &#125;, <span class="hljs-number">1000</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">obj3.timer();</span><br></pre></td></tr></table></figure>
+<h2 id="4-3-保存引用"><a href="#4-3-保存引用" class="headerlink" title="4.3 保存引用"></a>4.3 保存引用</h2><p>这种是 <code>Es6</code> 之前我们常用的方式，即先手动保存一份需要的执行环境的 <code>this</code>，后面再使用：</p>
+<figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> self = &#123;</span><br><span class="line">  a: <span class="hljs-number">0</span>,</span><br><span class="line">  selfFn() &#123;</span><br><span class="line">    <span class="hljs-keyword">var</span> _self = <span class="hljs-keyword">this</span>;</span><br><span class="line">    setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">      <span class="hljs-built_in">console</span>.log(_self.a); <span class="hljs-comment">//0</span></span><br><span class="line">    &#125;, <span class="hljs-number">1000</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">self.selfFn();</span><br></pre></td></tr></table></figure>
+<p>因为 <code>this</code> 引用丢失在 <code>Vue</code> 或者 <code>React</code> 中也存在同样问题并且有多种解决方式，另外放在 <code>Vue</code> 和 <code>React</code> 的笔记里面好了。</p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/javascript/">javascript</a>, <a class="has-link-grey -link" href="/tags/前端/">前端</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2018/12/27/肯定能看懂的jsonp/">
+                <span class="level-item">肯定能看懂的jsonp</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">评论</h3>
+        
+<div id="valine-thread"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#valine-thread' ,
+        notify: true,
+        verify: true,
+        app_id: 'JqjOsYU5gr8YNcivHfvi5DKL-gzGzoHsz',
+        app_key: 'DkSF9sCyu8lOwgDzJX6Br7d8',
+        placeholder: '欢迎评论~'
+    });
+</script>
+
+    </div>
+</div>
+</div> -->
+                <!-- add by fyg -->
+                <!-- to remove sidebar in article page -->
+                
+                    <!-- in article page, put arcitle take all width-->
+                <div class="column is-12 has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-01-05T16:22:28.000Z">2019-01-06</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/前端/">前端</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    6 分钟 读完 (大约 841 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                this 绑定丢失及修复
+            
+        </h1>
+        <div class="content">
+            <p>在 <code>Javascript</code> 中， <code>this</code> 关键字经常在我们不注意的时候就被错误引用，得到意料之外的结果，所以我自己对 <code>this</code> 引用丢失及修复的方式整理总结一下。</p>
+<h1 id="1-指向哪儿？"><a href="#1-指向哪儿？" class="headerlink" title="1 指向哪儿？"></a>1 指向哪儿？</h1><p>首先明确一下， <code>this</code> 是一个指向函数被调用时候的<code>执行上下文</code>的指针。</p>
+<p><code>执行上下文</code>中包含了函数的调用栈、函数调用方式、传入的参数等信息</p>
+<p><strong><code>this</code> 的绑定发生在<code>运行时</code>，它指向什么完全取决于函数在哪里被调用</strong></p>
+<a id="more"></a>
+<h1 id="2-this-绑定"><a href="#2-this-绑定" class="headerlink" title="2 this 绑定"></a>2 <code>this</code> 绑定</h1><h2 id="2-1-默认绑定"><a href="#2-1-默认绑定" class="headerlink" title="2.1 默认绑定"></a>2.1 默认绑定</h2><p>当在独立函数中使用 <code>this</code> 时，指向全局对象（ <code>window</code> / <code>global</code> ）：</p>
+<figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword">this</span>.a);</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-keyword">var</span> a = <span class="hljs-number">1</span>;</span><br><span class="line">foo(); <span class="hljs-comment">//1</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>但是 <code>严格模式</code> 下。 <code>this</code> 绑定到 <code>undefined</code></p>
+</blockquote>
+<h2 id="2-2-隐式绑定"><a href="#2-2-隐式绑定" class="headerlink" title="2.2 隐式绑定"></a>2.2 隐式绑定</h2><p> 函数引用有上下文对象时，<code>this</code> 会隐式被绑定到 <strong>这个上下文对象</strong>，而且 <strong>对象属性引用链中只有最后一层在调用位置中起作用</strong>：</p>
+ <figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword">this</span>.a);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">var</span> obj = &#123;</span><br><span class="line">  a: <span class="hljs-number">0</span>,</span><br><span class="line">  foo: foo</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">var</span> obj2 = &#123;</span><br><span class="line">  a: <span class="hljs-number">1</span>,</span><br><span class="line">  obj: obj</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">obj1.obj.foo(); <span class="hljs-comment">// 0</span></span><br></pre></td></tr></table></figure>
+<h2 id="2-3-new-绑定"><a href="#2-3-new-绑定" class="headerlink" title="2.3 new 绑定"></a>2.3 <code>new</code> 绑定</h2><p> 使用 <code>new</code> 实例化一个构造函数时，会有以下步骤：</p>
+<ol>
+<li>创建一个新对象</li>
+<li>把新对象内部的 <code>[[Prototype]]</code> 链接到构造函数的原型对象</li>
+<li><strong>将新对象绑定到函数调用的 <code>this</code></strong></li>
+<li>返回新对象或者返回指定的对象</li>
+</ol>
+<p>比如：</p>
+<figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Foo</span>(<span class="hljs-params">a</span>) </span>&#123;</span><br><span class="line">  <span class="hljs-keyword">this</span>.a = a;</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-keyword">var</span> bar = <span class="hljs-keyword">new</span> Foo(<span class="hljs-number">2</span>);</span><br><span class="line"><span class="hljs-built_in">console</span>.log(bar.a); <span class="hljs-comment">// 2</span></span><br></pre></td></tr></table></figure>
+<h1 id="3-绑定丢失"><a href="#3-绑定丢失" class="headerlink" title="3 绑定丢失"></a>3 绑定丢失</h1><p>在 <code>隐式绑定</code> 中，有些情况下会发生引用丢失的问题</p>
+<h2 id="3-1-引用函数时丢失"><a href="#3-1-引用函数时丢失" class="headerlink" title="3.1 引用函数时丢失"></a>3.1 引用函数时丢失</h2><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword">this</span>.a);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">var</span> obj = &#123;</span><br><span class="line">  a: <span class="hljs-number">0</span>,</span><br><span class="line">  foo: foo</span><br><span class="line">&#125;;</span><br><span class="line"><span class="hljs-keyword">var</span> a = <span class="hljs-string">"global"</span>;</span><br><span class="line"><span class="hljs-keyword">var</span> baz = obj.foo;</span><br><span class="line">baz(); <span class="hljs-comment">// 'global' on browser   undefined on node</span></span><br></pre></td></tr></table></figure>
+<p><code>var baz = obj.foo</code> 的引用，实际上是引用了 <code>foo</code> 函数自身，因此在调用函数 <code>baz</code> 时候，相当于在 <code>全局环境</code> 调用了 <code>foo</code></p>
+<h2 id="3-2-传入回调函数丢失"><a href="#3-2-传入回调函数丢失" class="headerlink" title="3.2 传入回调函数丢失"></a>3.2 传入回调函数丢失</h2><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword">this</span>.a);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">bar</span>(<span class="hljs-params">fn</span>) </span>&#123;</span><br><span class="line">  <span class="hljs-comment">// fn 实际上引用的是 foo</span></span><br><span class="line">  fn();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">var</span> obj = &#123;</span><br><span class="line">  a: <span class="hljs-number">0</span>,</span><br><span class="line">  foo: foo</span><br><span class="line">&#125;;</span><br><span class="line"><span class="hljs-keyword">var</span> a = <span class="hljs-string">"global"</span>;</span><br><span class="line">bar(obj.foo); <span class="hljs-comment">// 'global' on browser   undefined on node</span></span><br></pre></td></tr></table></figure>
+<h2 id="3-3-setTimeout"><a href="#3-3-setTimeout" class="headerlink" title="3.3 setTimeout"></a>3.3 <code>setTimeout</code></h2><p>   <code>setTimeout</code>的回调函数会在全局环境（ <code>window</code> / <code>global</code> ）被执行，即：</p>
+<figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> obj2 = &#123;</span><br><span class="line">  timer() &#123;</span><br><span class="line">    setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">      <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword">this</span>); <span class="hljs-comment">//window</span></span><br><span class="line">    &#125;, <span class="hljs-number">1000</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">obj2.timer();</span><br></pre></td></tr></table></figure>
+<h1 id="4-修改指向"><a href="#4-修改指向" class="headerlink" title="4 修改指向"></a>4 修改指向</h1><p>为了纠正以上 <code>隐式传递</code> 产生的绑定丢失，我们可以用以下方式来纠正 / 修改 <code>this</code> 指向</p>
+<h2 id="4-1-显式绑定（-call-apply-bind）"><a href="#4-1-显式绑定（-call-apply-bind）" class="headerlink" title="4.1 显式绑定（ call,apply,bind）"></a>4.1 显式绑定（ <code>call</code>,<code>apply</code>,<code>bind</code>）</h2><p>即手动、明确的给函数指定一个执行上下文：</p>
+<p>比如上面函数传递丢失：</p>
+<figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">  <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword">this</span>.a);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">var</span> obj = &#123;</span><br><span class="line">  a: <span class="hljs-number">0</span>,</span><br><span class="line">  foo: foo</span><br><span class="line">&#125;;</span><br><span class="line"><span class="hljs-keyword">var</span> a = <span class="hljs-string">"global"</span>;</span><br><span class="line"><span class="hljs-keyword">var</span> baz = obj.foo;</span><br><span class="line">baz.call(obj); <span class="hljs-comment">// 0</span></span><br></pre></td></tr></table></figure>
+<p><code>call</code>,<code>apply</code>,<code>bind</code> 也是很好玩的三个方法，有空再另写一篇详细区分一下</p>
+<h2 id="4-2-arrow-function"><a href="#4-2-arrow-function" class="headerlink" title="4.2 arrow function"></a>4.2 <code>arrow function</code></h2><p>   <code>Es6</code> 的 <code>arrow function</code> 会根据外层作用域来决定 <code>this</code> 的指向，从而避免 <code>this</code> 指向丢失：</p>
+<figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> obj3 = &#123;</span><br><span class="line">  timer() &#123;</span><br><span class="line">    setTimeout(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword">this</span>); <span class="hljs-comment">//function timer</span></span><br><span class="line">    &#125;, <span class="hljs-number">1000</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">obj3.timer();</span><br></pre></td></tr></table></figure>
+<h2 id="4-3-保存引用"><a href="#4-3-保存引用" class="headerlink" title="4.3 保存引用"></a>4.3 保存引用</h2><p>这种是 <code>Es6</code> 之前我们常用的方式，即先手动保存一份需要的执行环境的 <code>this</code>，后面再使用：</p>
+<figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> self = &#123;</span><br><span class="line">  a: <span class="hljs-number">0</span>,</span><br><span class="line">  selfFn() &#123;</span><br><span class="line">    <span class="hljs-keyword">var</span> _self = <span class="hljs-keyword">this</span>;</span><br><span class="line">    setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">      <span class="hljs-built_in">console</span>.log(_self.a); <span class="hljs-comment">//0</span></span><br><span class="line">    &#125;, <span class="hljs-number">1000</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">self.selfFn();</span><br></pre></td></tr></table></figure>
+<p>因为 <code>this</code> 引用丢失在 <code>Vue</code> 或者 <code>React</code> 中也存在同样问题并且有多种解决方式，另外放在 <code>Vue</code> 和 <code>React</code> 的笔记里面好了。</p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/javascript/">javascript</a>, <a class="has-link-grey -link" href="/tags/前端/">前端</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2018/12/27/肯定能看懂的jsonp/">
+                <span class="level-item">肯定能看懂的jsonp</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">评论</h3>
+        
+<div id="valine-thread"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#valine-thread' ,
+        notify: true,
+        verify: true,
+        app_id: 'JqjOsYU5gr8YNcivHfvi5DKL-gzGzoHsz',
+        app_key: 'DkSF9sCyu8lOwgDzJX6Br7d8',
+        placeholder: '欢迎评论~'
+    });
+</script>
+
+    </div>
+</div>
+</div>
+                
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <!-- remobe footer lgoo -->
+                <!-- <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/favicon.svg" alt="this 绑定丢失及修复" height="28">
+                
+                </a> -->
+                <p class="is-size-10">
+                &copy; 2019 Feng YangGang&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-icarus">Icarus</a>
+                </p>
+                <!-- add by fyg -->
+                <p class="is-size-10">
+                    This Two-columns Theme At
+                    <a href="https://github.com/fengscript/blog-theme"><i class="fab fa-github"></i></a>
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {matchFontHeight: false},
+        SVG: {matchFontHeight: false},
+        CommonHTML: {matchFontHeight: false}
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+    
+    
+
+    
+    
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>
